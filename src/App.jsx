@@ -157,7 +157,7 @@ export default function App() {
           </span>
           <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '0.75rem', color: 'rgba(17,76,90,0.6)', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
             <img src="/SVGs/link.svg" alt="" style={{ width: '0.875rem', height: '0.875rem', opacity: 0.6 }} />
-            © 2026 NexAI. Built for the Speed Run Competition.
+            <span>Built for the Speed Run Competition. Made by <a href="https://souradeep.me" target="_blank" rel="noopener noreferrer" style={{ color: '#114C5A', textDecoration: 'underline', fontWeight: 600 }}>souradeep.me</a>.</span>
           </p>
         </div>
       </footer>
