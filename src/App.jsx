@@ -71,7 +71,10 @@ export default function App() {
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a href="#pricing" className="btn-primary">Start Building Free</a>
-              <a href="#features" className="btn-secondary">Explore Features →</a>
+              <a href="#features" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <img src="/SVGs/chart-pie.svg" alt="" style={{ width: '1.25rem', height: '1.25rem', filter: 'invert(16%) sepia(21%) saturate(1637%) hue-rotate(159deg) brightness(96%) contrast(89%)' }} />
+                Explore Features →
+              </a>
             </div>
           </div>
         </section>
@@ -152,7 +155,8 @@ export default function App() {
           <span style={{ fontFamily: 'var(--font-jetbrains)', fontWeight: 700, color: '#172B36' }}>
             Nex<span style={{ color: '#FF9932' }}>AI</span>
           </span>
-          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '0.75rem', color: 'rgba(17,76,90,0.6)' }}>
+          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '0.75rem', color: 'rgba(17,76,90,0.6)', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <img src="/SVGs/link.svg" alt="" style={{ width: '0.875rem', height: '0.875rem', opacity: 0.6 }} />
             © 2026 NexAI. Built for the Speed Run Competition.
           </p>
         </div>

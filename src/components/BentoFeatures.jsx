@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 const features = [
-  { id: 0, title: 'Neural Routing',          desc: 'Intelligently routes requests to the optimal model based on cost and accuracy thresholds in real time.' },
-  { id: 1, title: 'Context Window Expansion', desc: 'Seamlessly manages 1M+ token context windows with dynamic compression and memory mapping.' },
-  { id: 2, title: 'Zero-Latency Edge',        desc: 'Deploys inference models directly to edge nodes across 300+ global locations for sub-12ms response.' },
-  { id: 3, title: 'Enterprise RAG',           desc: 'Connects directly to your secure databases with vector similarity search and retrieval built-in.' },
+  { id: 0, title: 'Neural Routing',          icon: 'arrow-path.svg', desc: 'Intelligently routes requests to the optimal model based on cost and accuracy thresholds in real time.' },
+  { id: 1, title: 'Context Window Expansion', icon: 'cube-16-solid.svg', desc: 'Seamlessly manages 1M+ token context windows with dynamic compression and memory mapping.' },
+  { id: 2, title: 'Zero-Latency Edge',        icon: 'arrow-trending-up.svg', desc: 'Deploys inference models directly to edge nodes across 300+ global locations for sub-12ms response.' },
+  { id: 3, title: 'Enterprise RAG',           icon: 'cog-8-tooth.svg', desc: 'Connects directly to your secure databases with vector similarity search and retrieval built-in.' },
 ]
 
 const bentoConfig = [
@@ -68,30 +68,32 @@ export default function BentoFeatures() {
 
               {/* Header */}
               <div style={{ padding: '1.75rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h3 style={{
-                  fontFamily: 'var(--font-jetbrains)',
-                  fontSize: '1.125rem',
-                  fontWeight: 700,
-                  color: isActive ? '#FF9932' : '#172B36',
-                  transition: 'color 0.2s ease-out',
-                }}>
-                  {feat.title}
-                </h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <img src={`/SVGs/${feat.icon}`} alt="" style={{ width: '1.5rem', height: '1.5rem', filter: isActive ? 'invert(66%) sepia(85%) saturate(1759%) hue-rotate(345deg) brightness(101%) contrast(104%)' : 'invert(16%) sepia(21%) saturate(1637%) hue-rotate(159deg) brightness(96%) contrast(89%)', transition: 'filter 0.2s ease-out' }} aria-hidden="true" />
+                  <h3 style={{
+                    fontFamily: 'var(--font-jetbrains)',
+                    fontSize: '1.125rem',
+                    fontWeight: 700,
+                    color: isActive ? '#FF9932' : '#172B36',
+                    transition: 'color 0.2s ease-out',
+                  }}>
+                    {feat.title}
+                  </h3>
+                </div>
                 {/* Accordion chevron (mobile only) */}
-                <svg
+                <img
+                  src="/SVGs/chevron-down.svg"
                   className="accordion-chevron"
+                  alt="Toggle"
                   style={{
                     width: '1.25rem',
                     height: '1.25rem',
-                    color: isActive ? '#FFC801' : '#D9E8E2',
                     transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.3s ease-in-out, color 0.2s ease-out',
+                    transition: 'transform 0.3s ease-in-out, filter 0.2s ease-out',
                     flexShrink: 0,
+                    filter: isActive ? 'invert(84%) sepia(89%) saturate(2250%) hue-rotate(352deg) brightness(101%) contrast(104%)' : 'invert(96%) sepia(6%) saturate(632%) hue-rotate(106deg) brightness(93%) contrast(89%)'
                   }}
-                  fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
+                />
               </div>
 
               {/* Body — Accordion on mobile, always visible on desktop */}
