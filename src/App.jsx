@@ -1,5 +1,7 @@
 import BentoFeatures from './components/BentoFeatures'
 import PricingMatrix from './components/PricingMatrix'
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
 
 const StarIcon = () => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="#FF9932" aria-hidden="true">
@@ -24,60 +26,12 @@ export default function App() {
   return (
     <>
       {/* ── Navigation ── */}
-      <header role="banner" style={{ backgroundColor: 'rgba(241,246,244,0.90)', borderBottom: '1px solid #D9E8E2', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
-        <nav role="navigation" aria-label="Main navigation" style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem', height: '4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <a href="/" aria-label="NexAI Home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-jetbrains)', fontWeight: 700, fontSize: '1.25rem', color: '#172B36' }}>
-              Nex<span style={{ color: '#FF9932' }}>AI</span>
-            </span>
-          </a>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="hidden-mobile">
-            <a href="#features" className="nav-link">Features</a>
-            <a href="#pricing" className="nav-link">Pricing</a>
-            <a href="#testimonials" className="nav-link">Customers</a>
-          </div>
-          <a href="#pricing" style={{ padding: '0.5rem 1.25rem', backgroundColor: '#172B36', color: '#fff', borderRadius: '0.5rem', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500, transition: 'background-color 0.2s ease-out' }}
-            onMouseEnter={e => e.target.style.backgroundColor = '#114C5A'}
-            onMouseLeave={e => e.target.style.backgroundColor = '#172B36'}
-          >
-            Get Started
-          </a>
-        </nav>
-      </header>
+      <Navbar />
 
       <main id="main-content">
 
         {/* ── Hero ── */}
-        <section aria-labelledby="hero-heading" style={{ paddingTop: '9rem', paddingBottom: '6rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-            <div style={{ position: 'absolute', top: '5rem', left: '20%', width: '24rem', height: '24rem', backgroundColor: '#FFC801', opacity: 0.08, borderRadius: '50%', filter: 'blur(80px)' }} />
-            <div style={{ position: 'absolute', top: '8rem', right: '20%', width: '20rem', height: '20rem', backgroundColor: '#114C5A', opacity: 0.08, borderRadius: '50%', filter: 'blur(80px)' }} />
-          </div>
-
-          <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D9E8E2', color: '#114C5A', fontSize: '0.75rem', fontWeight: 500, padding: '0.375rem 1rem', borderRadius: '9999px', marginBottom: '1.5rem', border: '1px solid rgba(217,232,226,0.6)' }}>
-              <span style={{ width: '0.5rem', height: '0.5rem', backgroundColor: '#FF9932', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-              Now with 1M token context windows
-            </div>
-
-            <h1 id="hero-heading" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700, color: '#172B36', lineHeight: 1.1, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
-              Intelligence at the{' '}
-              <span style={{ color: '#FF9932' }}>Edge</span>.
-            </h1>
-
-            <p style={{ fontSize: '1.125rem', color: 'rgba(17,76,90,0.8)', marginBottom: '2.5rem', maxWidth: '36rem', margin: '0 auto 2.5rem', lineHeight: 1.7 }}>
-              Deploy, scale, and optimize your AI infrastructure with zero configuration. The platform built for the next generation of automation.
-            </p>
-
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="#pricing" className="btn-primary">Start Building Free</a>
-              <a href="#features" className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <img src="/SVGs/chart-pie.svg" alt="" style={{ width: '1.25rem', height: '1.25rem', filter: 'invert(16%) sepia(21%) saturate(1637%) hue-rotate(159deg) brightness(96%) contrast(89%)' }} />
-                Explore Features →
-              </a>
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         {/* ── Stats Bar ── */}
         <section aria-label="Platform statistics" style={{ borderTop: '1px solid #D9E8E2', borderBottom: '1px solid #D9E8E2', backgroundColor: '#fff', padding: '3rem 1.5rem' }}>
@@ -163,6 +117,14 @@ export default function App() {
       </footer>
 
       <style>{`
+        @keyframes slideUpFade {
+          0% { opacity: 0; transform: translateY(15px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .hero-animate {
+          animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
