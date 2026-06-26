@@ -160,14 +160,13 @@ export default function TraceLanding() {
                 className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal mt-4 leading-tight" 
               />
               <p className="text-white/60 text-lg mt-6">One dashboard for every AI tool you use.</p>
-              <p className="text-white/40 max-w-2xl mx-auto mt-2">Trackify AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.</p>
             </div>
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
               whileInView={{ opacity: 1, scale: 1.05, rotateX: 20 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              className="max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] bg-[#222222] rounded-3xl shadow-2xl"
+              className="max-w-5xl mt-8 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] bg-[#222222] rounded-3xl shadow-2xl"
               style={{
                 boxShadow: '0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003'
               }}
@@ -188,15 +187,6 @@ export default function TraceLanding() {
               text="One dashboard for every AI tool you use." 
               className="font-serif text-4xl md:text-5xl lg:text-6xl tracking-tighter text-amber-50 font-normal mt-4 mb-5 max-w-6xl leading-tight" 
             />
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="text-amber-50 text-2xl max-w-4xl font-helvetica leading-relaxed"
-            >
-              Trackify reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.
-            </motion.p>
           </div>
           
           <motion.div 
@@ -354,7 +344,7 @@ export default function TraceLanding() {
                   </div>
 
                   <div className="relative z-10 flex flex-col h-full overflow-hidden">
-                    <p className="text-zinc-700 group-hover/card:text-zinc-900 transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
+                    <p className="text-black transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
                       {testimonial.text}
                     </p>
                     
@@ -522,11 +512,9 @@ export default function TraceLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="relative flex flex-col justify-between px-8 md:px-16 pt-32 pb-10 overflow-hidden bg-zinc-950">
+      <footer className="relative min-h-[75vh] flex flex-col justify-between px-8 md:px-16 pt-32 pb-10 overflow-hidden bg-zinc-950">
         <div className="pointer-events-none absolute inset-0 origin-bottom" style={{ background: 'radial-gradient(ellipse 120% 90% at 50% 125%, #a14409 0%, #3d1908 42%, transparent 72%)' }}></div>
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl w-full mx-auto">
-          <div>
-          </div>
+        <div className="relative flex justify-center gap-16 md:gap-32 w-full mx-auto z-10">
           <div className="mt-2">
             <ul className="space-y-4">
               <li className="flex items-center gap-2"><a href="https://github.com/Subham12R/Trace/releases" target="_blank" rel="noopener noreferrer" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Download</a></li>
@@ -543,9 +531,13 @@ export default function TraceLanding() {
           </div>
         </div>
 
-        {/* Giant footer text removed per user request */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
+          <span className="text-white/10 text-[100px] sm:text-[150px] md:text-[220px] lg:text-[280px] font-helvetica font-bold leading-none tracking-tighter whitespace-nowrap">
+            Trackify.ai
+          </span>
+        </div>
 
-        <div className="relative w-full mx-auto grid grid-cols-2 md:flex md:justify-between md:items-center gap-6 pt-8 text-xs text-white/25 font-helvetica z-10">
+        <div className="relative w-full mx-auto grid grid-cols-2 md:flex md:justify-between md:items-center gap-6 pt-32 text-xs text-white/25 font-helvetica z-10">
           <div>
             <p className="text-white/15 mb-1">© Trackify AI 2026</p>
             <a href="https://souradeep.me" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Made by souradeep.me</a>
