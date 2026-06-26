@@ -1,148 +1,144 @@
 import BentoFeatures from './components/BentoFeatures'
 import PricingMatrix from './components/PricingMatrix'
-import './App.css'
 
-/* ── Inline SVG icon helper ───────────────────────────── */
 const StarIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="#FF9932" aria-hidden="true">
     <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
   </svg>
 )
 
-/* ── Social proof data ────────────────────────────────── */
 const testimonials = [
-  { name: 'Sarah K.', role: 'CTO, Lumen AI', quote: 'NexAI cut our inference costs by 62% in the first month. The neural routing alone is worth the price.' },
+  { name: 'Sarah K.',  role: 'CTO, Lumen AI',      quote: 'NexAI cut our inference costs by 62% in the first month. The neural routing alone is worth the price.' },
   { name: 'Marcus R.', role: 'Lead Engineer, Archon', quote: 'The bento grid feature explorer sold me in 30 seconds. Shipped to prod in an afternoon.' },
-  { name: 'Priya S.', role: 'Head of Data, Qore Systems', quote: 'Enterprise RAG connected to our Postgres instance flawlessly. The context expansion is a genuine breakthrough.' },
+  { name: 'Priya S.', role: 'Head of Data, Qore',   quote: 'Enterprise RAG connected to our Postgres instance flawlessly. The context expansion is a genuine breakthrough.' },
 ]
 
 const stats = [
-  { value: '300+', label: 'Edge Locations' },
-  { value: '62%', label: 'Avg Cost Reduction' },
-  { value: '1M+', label: 'Token Context Window' },
-  { value: '< 12ms', label: 'P99 Latency' },
+  { value: '300+',  label: 'Edge Locations' },
+  { value: '62%',   label: 'Avg Cost Reduction' },
+  { value: '1M+',   label: 'Token Context Window' },
+  { value: '<12ms', label: 'P99 Latency' },
 ]
 
-/* ── Main App ─────────────────────────────────────────── */
 export default function App() {
   return (
     <>
-      {/* ─── Navigation ─────────────────────────────── */}
-      <header role="banner" className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[rgba(241,246,244,0.85)] border-b border-[#D9E8E2]">
-        <nav role="navigation" aria-label="Main navigation" className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <a href="/" aria-label="NexAI Home" className="flex items-center gap-2">
-            <span className="font-jetbrains font-bold text-xl text-[#172B36] tracking-tight">Nex<span className="text-[#FF9932]">AI</span></span>
+      {/* ── Navigation ── */}
+      <header role="banner" style={{ backgroundColor: 'rgba(241,246,244,0.90)', borderBottom: '1px solid #D9E8E2', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
+        <nav role="navigation" aria-label="Main navigation" style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem', height: '4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <a href="/" aria-label="NexAI Home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-jetbrains)', fontWeight: 700, fontSize: '1.25rem', color: '#172B36' }}>
+              Nex<span style={{ color: '#FF9932' }}>AI</span>
+            </span>
           </a>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium text-[#114C5A] hover:text-[#FF9932] transition-colors duration-200">Features</a>
-            <a href="#pricing" className="text-sm font-medium text-[#114C5A] hover:text-[#FF9932] transition-colors duration-200">Pricing</a>
-            <a href="#testimonials" className="text-sm font-medium text-[#114C5A] hover:text-[#FF9932] transition-colors duration-200">Customers</a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="hidden-mobile">
+            <a href="#features" className="nav-link">Features</a>
+            <a href="#pricing" className="nav-link">Pricing</a>
+            <a href="#testimonials" className="nav-link">Customers</a>
           </div>
-          <div className="flex items-center gap-3">
-            <a href="#" className="text-sm font-medium text-[#172B36] hidden sm:inline">Sign In</a>
-            <a href="#pricing" className="px-4 py-2 bg-[#172B36] text-white text-sm font-medium rounded-lg hover:bg-[#114C5A] transition-colors duration-200 shadow-sm">
-              Get Started
-            </a>
-          </div>
+          <a href="#pricing" style={{ padding: '0.5rem 1.25rem', backgroundColor: '#172B36', color: '#fff', borderRadius: '0.5rem', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500, transition: 'background-color 0.2s ease-out' }}
+            onMouseEnter={e => e.target.style.backgroundColor = '#114C5A'}
+            onMouseLeave={e => e.target.style.backgroundColor = '#172B36'}
+          >
+            Get Started
+          </a>
         </nav>
       </header>
 
-      {/* ─── Main Content ───────────────────────────── */}
       <main id="main-content">
 
-        {/* ── Hero ──────────────────────────────────── */}
-        <section aria-labelledby="hero-heading" className="pt-36 pb-24 px-4 text-center relative overflow-hidden">
-          {/* Ambient gradient blobs */}
-          <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-1/4 w-96 h-96 bg-[#FFC801] opacity-10 rounded-full blur-3xl"></div>
-            <div className="absolute top-40 right-1/4 w-80 h-80 bg-[#114C5A] opacity-10 rounded-full blur-3xl"></div>
+        {/* ── Hero ── */}
+        <section aria-labelledby="hero-heading" style={{ paddingTop: '9rem', paddingBottom: '6rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+            <div style={{ position: 'absolute', top: '5rem', left: '20%', width: '24rem', height: '24rem', backgroundColor: '#FFC801', opacity: 0.08, borderRadius: '50%', filter: 'blur(80px)' }} />
+            <div style={{ position: 'absolute', top: '8rem', right: '20%', width: '20rem', height: '20rem', backgroundColor: '#114C5A', opacity: 0.08, borderRadius: '50%', filter: 'blur(80px)' }} />
           </div>
 
-          <div className="relative max-w-5xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-[#D9E8E2] text-[#114C5A] text-xs font-medium px-4 py-1.5 rounded-full mb-6 border border-[#D9E8E2]/60">
-              <span className="w-2 h-2 bg-[#FF9932] rounded-full animate-pulse"></span>
+          <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D9E8E2', color: '#114C5A', fontSize: '0.75rem', fontWeight: 500, padding: '0.375rem 1rem', borderRadius: '9999px', marginBottom: '1.5rem', border: '1px solid rgba(217,232,226,0.6)' }}>
+              <span style={{ width: '0.5rem', height: '0.5rem', backgroundColor: '#FF9932', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
               Now with 1M token context windows
             </div>
 
-            <h1 id="hero-heading" className="text-5xl sm:text-6xl md:text-7xl font-bold font-jetbrains text-[#172B36] mb-6 tracking-tight leading-tight">
-              Intelligence at<br className="hidden sm:block" /> the <span className="text-[#FF9932]">Edge</span>.
+            <h1 id="hero-heading" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 700, color: '#172B36', lineHeight: 1.1, marginBottom: '1.5rem', letterSpacing: '-0.02em' }}>
+              Intelligence at the{' '}
+              <span style={{ color: '#FF9932' }}>Edge</span>.
             </h1>
 
-            <p className="text-lg md:text-xl text-[#114C5A]/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p style={{ fontSize: '1.125rem', color: 'rgba(17,76,90,0.8)', marginBottom: '2.5rem', maxWidth: '36rem', margin: '0 auto 2.5rem', lineHeight: 1.7 }}>
               Deploy, scale, and optimize your AI infrastructure with zero configuration. The platform built for the next generation of automation.
             </p>
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href="#pricing" className="px-8 py-4 bg-[#172B36] text-white font-medium rounded-xl hover:bg-[#114C5A] transition-colors duration-200 shadow-lg">
-                Start Building Free
-              </a>
-              <a href="#features" className="px-8 py-4 bg-white border border-[#D9E8E2] text-[#172B36] font-medium rounded-xl hover:border-[#FFC801] hover:shadow-md transition-all duration-200">
-                Explore Features →
-              </a>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="#pricing" className="btn-primary">Start Building Free</a>
+              <a href="#features" className="btn-secondary">Explore Features →</a>
             </div>
           </div>
         </section>
 
-        {/* ── Stats Bar ─────────────────────────────── */}
-        <section aria-label="Platform statistics" className="py-12 border-y border-[#D9E8E2] bg-white">
-          <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        {/* ── Stats Bar ── */}
+        <section aria-label="Platform statistics" style={{ borderTop: '1px solid #D9E8E2', borderBottom: '1px solid #D9E8E2', backgroundColor: '#fff', padding: '3rem 1.5rem' }}>
+          <div style={{ maxWidth: '56rem', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }} className="stats-grid">
             {stats.map(({ value, label }) => (
-              <div key={label}>
-                <p className="text-3xl font-bold font-jetbrains text-[#172B36]">{value}</p>
-                <p className="text-sm text-[#114C5A]/70 mt-1">{label}</p>
+              <div key={label} style={{ textAlign: 'center' }}>
+                <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '2rem', fontWeight: 700, color: '#172B36' }}>{value}</p>
+                <p style={{ fontSize: '0.875rem', color: 'rgba(17,76,90,0.7)', marginTop: '0.25rem' }}>{label}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── Features (Bento / Accordion) ─────────── */}
+        {/* ── Features ── */}
         <section id="features" aria-labelledby="features-heading">
           <BentoFeatures />
         </section>
 
-        {/* ── Pricing ───────────────────────────────── */}
-        <section id="pricing" aria-labelledby="pricing-heading" className="bg-white">
+        {/* ── Pricing ── */}
+        <section id="pricing" aria-labelledby="pricing-heading" style={{ backgroundColor: '#fff' }}>
           <PricingMatrix />
         </section>
 
-        {/* ── Testimonials ─────────────────────────── */}
-        <section id="testimonials" aria-labelledby="testimonials-heading" className="py-24 px-4 max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 id="testimonials-heading" className="text-4xl font-bold font-jetbrains text-[#172B36] mb-4">
+        {/* ── Testimonials ── */}
+        <section id="testimonials" aria-labelledby="testimonials-heading" style={{ padding: '6rem 1.5rem', maxWidth: '80rem', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 id="testimonials-heading" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '2.25rem', fontWeight: 700, color: '#172B36', marginBottom: '1rem' }}>
               Trusted by Builders
             </h2>
-            <p className="text-[#114C5A]/80 max-w-xl mx-auto">
+            <p style={{ color: 'rgba(17,76,90,0.8)', maxWidth: '28rem', margin: '0 auto' }}>
               Teams across the world use NexAI to ship faster and spend less.
             </p>
           </div>
-          <ul className="grid grid-cols-1 md:grid-cols-3 gap-6" role="list">
+          <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', listStyle: 'none' }}>
             {testimonials.map(({ name, role, quote }) => (
-              <li key={name} className="bg-white rounded-2xl p-8 border border-[#D9E8E2] shadow-sm hover:border-[#FFC801] hover:shadow-md transition-all duration-300 flex flex-col gap-4">
-                <div className="flex gap-1 text-[#FF9932]" aria-label="5 star rating">
+              <li key={name} className="card-hover" style={{ backgroundColor: '#fff', borderRadius: '1rem', padding: '2rem', border: '1px solid #D9E8E2', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'flex', gap: '0.25rem' }} aria-label="5 star rating">
                   {Array.from({ length: 5 }).map((_, i) => <StarIcon key={i} />)}
                 </div>
-                <blockquote className="text-[#114C5A]/80 text-sm leading-relaxed flex-grow">
+                <blockquote style={{ color: 'rgba(17,76,90,0.8)', fontSize: '0.9rem', lineHeight: 1.7, flexGrow: 1 }}>
                   &ldquo;{quote}&rdquo;
                 </blockquote>
                 <footer>
-                  <p className="font-semibold text-[#172B36]">{name}</p>
-                  <p className="text-xs text-[#114C5A]/60">{role}</p>
+                  <p style={{ fontWeight: 600, color: '#172B36', fontSize: '0.9rem' }}>{name}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'rgba(17,76,90,0.6)' }}>{role}</p>
                 </footer>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* ── CTA Banner ────────────────────────────── */}
-        <section aria-label="Call to action" className="py-24 px-4 bg-[#172B36] text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-bold font-jetbrains text-white mb-4">
+        {/* ── CTA Banner ── */}
+        <section aria-label="Call to action" style={{ backgroundColor: '#172B36', padding: '6rem 1.5rem', textAlign: 'center' }}>
+          <div style={{ maxWidth: '40rem', margin: '0 auto' }}>
+            <h2 style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '2.25rem', fontWeight: 700, color: '#fff', marginBottom: '1rem' }}>
               Ready to ship faster?
             </h2>
-            <p className="text-[#D9E8E2]/70 mb-8 text-lg">
+            <p style={{ color: 'rgba(217,232,226,0.7)', marginBottom: '2rem', fontSize: '1.125rem' }}>
               Join 10,000+ engineers who trust NexAI to power their AI applications.
             </p>
-            <a href="#pricing" className="inline-block px-10 py-4 bg-[#FFC801] text-[#172B36] font-bold rounded-xl hover:bg-[#FF9932] transition-colors duration-200 shadow-lg">
+            <a href="#pricing" style={{ display: 'inline-block', padding: '1rem 2.5rem', backgroundColor: '#FFC801', color: '#172B36', fontWeight: 700, borderRadius: '0.75rem', textDecoration: 'none', fontSize: '1rem', transition: 'background-color 0.2s ease-out' }}
+              onMouseEnter={e => e.target.style.backgroundColor = '#FF9932'}
+              onMouseLeave={e => e.target.style.backgroundColor = '#FFC801'}
+            >
               Get Started for Free
             </a>
           </div>
@@ -150,13 +146,66 @@ export default function App() {
 
       </main>
 
-      {/* ─── Footer ─────────────────────────────────── */}
-      <footer role="contentinfo" className="py-10 border-t border-[#D9E8E2] bg-[#F1F6F4]">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="font-jetbrains font-bold text-[#172B36]">Nex<span className="text-[#FF9932]">AI</span></span>
-          <p className="text-xs text-[#114C5A]/60 font-jetbrains">© 2026 NexAI. Built for the Speed Run Competition.</p>
+      {/* ── Footer ── */}
+      <footer role="contentinfo" style={{ borderTop: '1px solid #D9E8E2', backgroundColor: '#F1F6F4', padding: '2.5rem 1.5rem' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <span style={{ fontFamily: 'var(--font-jetbrains)', fontWeight: 700, color: '#172B36' }}>
+            Nex<span style={{ color: '#FF9932' }}>AI</span>
+          </span>
+          <p style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '0.75rem', color: 'rgba(17,76,90,0.6)' }}>
+            © 2026 NexAI. Built for the Speed Run Competition.
+          </p>
         </div>
       </footer>
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        .btn-primary {
+          padding: 0.875rem 2rem;
+          background-color: #172B36;
+          color: #fff;
+          font-weight: 600;
+          border-radius: 0.75rem;
+          text-decoration: none;
+          font-size: 1rem;
+          transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+          box-shadow: 0 4px 14px rgba(23,43,54,0.25);
+        }
+        .btn-primary:hover { background-color: #114C5A; box-shadow: 0 6px 20px rgba(23,43,54,0.35); }
+        .btn-secondary {
+          padding: 0.875rem 2rem;
+          background-color: #fff;
+          color: #172B36;
+          font-weight: 600;
+          border-radius: 0.75rem;
+          text-decoration: none;
+          font-size: 1rem;
+          border: 1.5px solid #D9E8E2;
+          transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .btn-secondary:hover { border-color: #FFC801; box-shadow: 0 4px 14px rgba(255,200,1,0.15); }
+        .nav-link {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: #114C5A;
+          text-decoration: none;
+          transition: color 0.15s ease-out;
+        }
+        .nav-link:hover { color: #FF9932; }
+        .card-hover {
+          transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .card-hover:hover { border-color: #FFC801; box-shadow: 0 8px 30px rgba(255,200,1,0.1); }
+        @media (min-width: 768px) {
+          .stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        }
+        @media (max-width: 767px) {
+          .hidden-mobile { display: none !important; }
+        }
+      `}</style>
     </>
   )
 }

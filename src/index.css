@@ -1,46 +1,38 @@
-@import "tailwindcss";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/700.css";
+@import "tailwindcss";
 
 @theme {
-  /* === Brand Color Palette === */
+  /* Brand Colors */
   --color-arctic-powder: #F1F6F4;
   --color-mystic-mint: #D9E8E2;
   --color-forsythia: #FFC801;
   --color-deep-saffron: #FF9932;
-  --color-nocturnal-expedition: #114C5A;
-  --color-oceanic-noir: #172B36;
+  --color-nocturnal: #114C5A;
+  --color-noir: #172B36;
 
-  /* === Typography === */
+  /* Typography */
   --font-jetbrains: "JetBrains Mono", monospace;
   --font-inter: "Inter", sans-serif;
-
-  /* === Easing per competition spec === */
-  --ease-micro: cubic-bezier(0, 0, 0.2, 1); /* ease-out, 150-200ms for hovers/toggles */
-  --ease-layout: cubic-bezier(0.4, 0, 0.2, 1); /* ease-in-out, 300-400ms for layout reflows */
 }
 
-/* === Base Reset === */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-inter);
   background-color: var(--color-arctic-powder);
-  color: var(--color-oceanic-noir);
+  color: var(--color-noir);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   min-height: 100svh;
 }
 

@@ -3,88 +3,161 @@ import PriceTextNode from './PriceTextNode';
 import { pricingState, pricingMatrix } from '../data/pricingMatrix';
 
 export default function PricingMatrix() {
-  // We use local state JUST for the UI of the toggles themselves, so they appear active.
-  // We DO NOT pass these down to the pricing tiers.
   const [activeCycle, setActiveCycle] = useState(pricingState.state.billingCycle);
   const [activeCurrency, setActiveCurrency] = useState(pricingState.state.currency);
 
   const handleCycleChange = (cycle) => {
     setActiveCycle(cycle);
-    pricingState.setBillingCycle(cycle); // Broadcasts to isolated nodes
+    pricingState.setBillingCycle(cycle);
   };
 
   const handleCurrencyChange = (e) => {
     const currency = e.target.value;
     setActiveCurrency(currency);
-    pricingState.setCurrency(currency); // Broadcasts to isolated nodes
+    pricingState.setCurrency(currency);
   };
 
   return (
-    <section className="py-24 px-4 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold font-jetbrains mb-4 text-color-oceanic-noir">Simple, Transparent Pricing</h2>
-        <p className="text-lg text-color-nocturnal-expedition/80 max-w-2xl mx-auto mb-8">
-          Unlock the full power of AI automation with a plan tailored to your needs.
+    <section style={{ padding: '6rem 1.5rem', maxWidth: '80rem', margin: '0 auto' }}>
+      {/* Heading */}
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <h2 id="pricing-heading" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '2.25rem', fontWeight: 700, color: '#172B36', marginBottom: '1rem' }}>
+          Simple, Transparent Pricing
+        </h2>
+        <p style={{ color: 'rgba(17,76,90,0.8)', maxWidth: '32rem', margin: '0 auto 2rem', lineHeight: 1.7 }}>
+          Unlock the full power of AI automation. No hidden fees.
         </p>
 
-        {/* Controls Row - These are the only things that re-render here */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          
-          <div className="flex bg-color-mystic-mint/30 p-1 rounded-full border border-color-mystic-mint">
-            <button 
-              onClick={() => handleCycleChange('monthly')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${activeCycle === 'monthly' ? 'bg-color-oceanic-noir text-white shadow-md' : 'text-color-oceanic-noir hover:bg-color-mystic-mint/50'}`}
-            >
-              Monthly
-            </button>
-            <button 
-              onClick={() => handleCycleChange('annual')}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${activeCycle === 'annual' ? 'bg-color-oceanic-noir text-white shadow-md' : 'text-color-oceanic-noir hover:bg-color-mystic-mint/50'}`}
-            >
-              Annual (Save 20%)
-            </button>
+        {/* Controls — these are the only things that re-render in this component */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
+          {/* Billing toggle */}
+          <div style={{ display: 'flex', backgroundColor: '#F1F6F4', border: '1.5px solid #D9E8E2', borderRadius: '9999px', padding: '0.25rem' }}>
+            {['monthly', 'annual'].map(cycle => (
+              <button
+                key={cycle}
+                onClick={() => handleCycleChange(cycle)}
+                style={{
+                  padding: '0.5rem 1.25rem',
+                  borderRadius: '9999px',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.18s ease-out, color 0.18s ease-out, box-shadow 0.18s ease-out',
+                  backgroundColor: activeCycle === cycle ? '#172B36' : 'transparent',
+                  color: activeCycle === cycle ? '#fff' : '#114C5A',
+                  boxShadow: activeCycle === cycle ? '0 2px 8px rgba(23,43,54,0.2)' : 'none',
+                }}
+              >
+                {cycle === 'monthly' ? 'Monthly' : 'Annual  (−20%)'}
+              </button>
+            ))}
           </div>
 
-          <div className="relative">
-            <select 
+          {/* Currency select */}
+          <div style={{ position: 'relative' }}>
+            <select
               value={activeCurrency}
               onChange={handleCurrencyChange}
-              className="appearance-none bg-color-arctic-powder border border-color-mystic-mint text-color-oceanic-noir py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-color-forsythia font-jetbrains font-medium cursor-pointer transition-all duration-200"
+              style={{
+                appearance: 'none',
+                WebkitAppearance: 'none',
+                backgroundColor: '#fff',
+                border: '1.5px solid #D9E8E2',
+                color: '#172B36',
+                padding: '0.55rem 2.5rem 0.55rem 1rem',
+                borderRadius: '0.625rem',
+                fontFamily: 'var(--font-jetbrains)',
+                fontWeight: 600,
+                fontSize: '0.875rem',
+                cursor: 'pointer',
+                outline: 'none',
+                transition: 'border-color 0.18s ease-out',
+              }}
+              onFocus={e => e.target.style.borderColor = '#FFC801'}
+              onBlur={e => e.target.style.borderColor = '#D9E8E2'}
             >
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="INR">INR (₹)</option>
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-color-oceanic-noir">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#114C5A' }}>
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 11L2 5h12z"/></svg>
             </div>
           </div>
-
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Tier cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
         {Object.entries(pricingMatrix.tiers).map(([tierId, tier]) => (
-          <div key={tierId} className="bg-white rounded-2xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-color-mystic-mint hover:border-color-forsythia hover:shadow-[0_8px_30px_rgba(255,200,1,0.15)] transition-all duration-400 flex flex-col group relative overflow-hidden">
-            
-            {/* Subtle top border accent */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-color-mystic-mint group-hover:bg-color-forsythia transition-colors duration-400"></div>
+          <div
+            key={tierId}
+            className="pricing-card"
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '1.25rem',
+              padding: '2rem',
+              border: '1.5px solid #D9E8E2',
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'border-color 0.25s ease-out, box-shadow 0.25s ease-out',
+            }}
+          >
+            {/* Top accent line */}
+            <div className="card-accent-line" style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '3px',
+              backgroundColor: '#D9E8E2',
+              transition: 'background-color 0.25s ease-out',
+            }} />
 
-            <h3 className="text-2xl font-bold text-color-oceanic-noir mb-2">{tier.name}</h3>
-            <p className="text-color-nocturnal-expedition/70 text-sm mb-6 h-10">{tier.desc}</p>
-            
-            <div className="mb-8 flex items-baseline">
-              {/* THIS IS THE ISOLATED TEXT NODE */}
-              <PriceTextNode tierId={tierId} className="text-5xl font-jetbrains font-bold text-color-oceanic-noir tracking-tight" />
-              <span className="text-color-nocturnal-expedition/60 ml-2 font-medium">/mo</span>
+            <h3 style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '1.25rem', fontWeight: 700, color: '#172B36', marginBottom: '0.5rem' }}>
+              {tier.name}
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: 'rgba(17,76,90,0.7)', marginBottom: '1.5rem', lineHeight: 1.6, minHeight: '2.5rem' }}>
+              {tier.desc}
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '2rem' }}>
+              {/* ISOLATED TEXT NODE — zero React re-render */}
+              <PriceTextNode tierId={tierId} />
+              <span style={{ color: 'rgba(17,76,90,0.6)', marginLeft: '0.375rem', fontWeight: 500, fontSize: '0.9rem' }}>/mo</span>
             </div>
 
-            <button className="mt-auto w-full py-3 rounded-lg font-medium text-center transition-all duration-200 border-2 border-color-oceanic-noir text-color-oceanic-noir hover:bg-color-oceanic-noir hover:text-white">
+            <button
+              className="tier-btn"
+              style={{
+                marginTop: 'auto',
+                width: '100%',
+                padding: '0.75rem',
+                borderRadius: '0.625rem',
+                fontWeight: 600,
+                fontSize: '0.9rem',
+                border: '1.5px solid #172B36',
+                color: '#172B36',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+                transition: 'background-color 0.18s ease-out, color 0.18s ease-out',
+              }}
+              onMouseEnter={e => { e.target.style.backgroundColor = '#172B36'; e.target.style.color = '#fff'; }}
+              onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#172B36'; }}
+            >
               Get Started
             </button>
           </div>
         ))}
       </div>
+
+      <style>{`
+        .pricing-card:hover { border-color: #FFC801; box-shadow: 0 8px 30px rgba(255,200,1,0.12); }
+        .pricing-card:hover .card-accent-line { background-color: #FFC801; }
+      `}</style>
     </section>
   );
 }
