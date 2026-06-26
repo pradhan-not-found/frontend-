@@ -1,24 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/inter-latin-400-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/inter-latin-500-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/inter-latin-700-normal.woff2') format('woff2'); }
-
-@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
-@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2'); }
-
 @theme {
-  /* Brand Colors */
-  --color-arctic-powder: #F1F6F4;
-  --color-mystic-mint: #D9E8E2;
-  --color-forsythia: #FFC801;
-  --color-deep-saffron: #FF9932;
-  --color-nocturnal: #114C5A;
-  --color-noir: #172B36;
-
-  /* Typography */
-  --font-heading: "JetBrains Mono", monospace;
+  --color-background: hsl(0, 0%, 100%);
+  --color-foreground: hsl(210, 14%, 17%);
+  --color-primary: hsl(210, 14%, 17%);
+  --color-primary-foreground: hsl(0, 0%, 100%);
+  --color-secondary: hsl(0, 0%, 96%);
+  --color-secondary-foreground: hsl(0, 0%, 9%);
+  --color-muted: hsl(0, 0%, 96%);
+  --color-muted-foreground: hsl(184, 5%, 55%);
+  --color-accent: hsl(239, 84%, 67%);
+  --color-accent-foreground: hsl(0, 0%, 100%);
+  --color-border: hsl(0, 0%, 90%);
+  --color-ring: hsl(239, 84%, 67%);
+  --radius-radius: 0.5rem;
+  --font-display: "Instrument Serif", serif;
   --font-body: "Inter", sans-serif;
+  --shadow-dashboard: 0 25px 80px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
 *, *::before, *::after {
@@ -31,24 +30,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-arctic-powder);
-  color: var(--color-noir);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100svh;
-}
-
-#root {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-}
-
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-@keyframes bounceScroll { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-
-.animate-fade-in-up {
-  animation: fadeInUp 400ms ease-out forwards;
 }

@@ -1,238 +1,265 @@
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Play, ChevronDown, Search, Bell, Home, CheckSquare, ArrowRightLeft, CreditCard, PieChart, Users, Settings, Plus, MoreVertical } from 'lucide-react';
 
 export default function Hero() {
-  const videoRef = useRef(null);
-  const rafRef = useRef(null);
-  const fadingOutRef = useRef(false);
-
-  // Custom JS Fader (requestAnimationFrame)
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const fadeDuration = 250;
-
-    const animateFade = (startOpacity, targetOpacity, onComplete) => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      
-      const startTime = performance.now();
-      const tick = (now) => {
-        const elapsed = now - startTime;
-        let progress = elapsed / fadeDuration;
-        if (progress > 1) progress = 1;
-        
-        video.style.opacity = startOpacity + (targetOpacity - startOpacity) * progress;
-        
-        if (progress < 1) {
-          rafRef.current = requestAnimationFrame(tick);
-        } else {
-          if (onComplete) onComplete();
-        }
-      };
-      rafRef.current = requestAnimationFrame(tick);
-    };
-
-    // Fade in on initial load
-    video.style.opacity = 0;
-    
-    const onLoadedData = () => {
-      animateFade(0, 1);
-    };
-
-    const onTimeUpdate = () => {
-      // 250ms fade-out when 0.55s remain
-      if (video.duration && video.currentTime >= video.duration - 0.55) {
-        if (!fadingOutRef.current) {
-          fadingOutRef.current = true;
-          animateFade(1, 0);
-        }
-      }
-    };
-
-    const onEnded = () => {
-      video.style.opacity = 0;
-      setTimeout(() => {
-        video.currentTime = 0;
-        video.play().catch(e => console.log('Autoplay prevented:', e));
-        fadingOutRef.current = false;
-        animateFade(0, 1);
-      }, 100);
-    };
-
-    video.addEventListener('loadeddata', onLoadedData);
-    video.addEventListener('timeupdate', onTimeUpdate);
-    video.addEventListener('ended', onEnded);
-
-    // If already loaded
-    if (video.readyState >= 2) onLoadedData();
-
-    return () => {
-      video.removeEventListener('loadeddata', onLoadedData);
-      video.removeEventListener('timeupdate', onTimeUpdate);
-      video.removeEventListener('ended', onEnded);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  // Typewriter Effect
-  const headlineFull = "Transform Raw Data\nInto Intelligence.";
-  const [headlineText, setHeadlineText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    let timeout;
-    let currentIndex = 0;
-
-    const typeChar = () => {
-      if (currentIndex <= headlineFull.length) {
-        setHeadlineText(headlineFull.slice(0, currentIndex));
-        currentIndex++;
-        timeout = setTimeout(typeChar, 38);
-      } else {
-        setIsTyping(false);
-      }
-    };
-
-    const startDelay = setTimeout(typeChar, 600);
-    return () => {
-      clearTimeout(startDelay);
-      clearTimeout(timeout);
-    };
-  }, []);
-
   return (
-    <section style={{ 
-      position: 'relative', width: '100%', height: '100vh', 
-      backgroundColor: '#172B36', display: 'flex', flexDirection: 'column', 
-      alignItems: 'center', justifyContent: 'center', overflow: 'hidden' 
-    }}>
-      
-      {/* Video Background */}
-      <video 
-        ref={videoRef}
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4"
-        muted playsInline autoPlay
-        style={{
-          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-          width: '115%', height: '115%', objectFit: 'cover', objectPosition: 'top center',
-          pointerEvents: 'none', zIndex: 0
-        }}
+    <section className="relative flex flex-col items-center w-full flex-1 overflow-hidden pt-12 md:pt-16">
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_015952_e1deeb12-8fb7-4071-a42a-60779fc64ab6.mp4"
       />
-      
-      {/* Gradient Overlay */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
-        background: 'linear-gradient(to bottom, rgba(23,43,54,0.55) 0%, rgba(17,76,90,0.82) 100%)'
-      }}></div>
 
-      {/* Hero Content */}
-      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 24px', maxWidth: '800px', width: '100%' }}>
-        
-        {/* Badge */}
-        <div style={{ 
-          backgroundColor: 'rgba(17,76,90,0.6)', border: '1px solid rgba(255,200,1,0.3)', 
-          borderRadius: '9999px', padding: '4px 12px', display: 'inline-flex', alignItems: 'center', 
-          gap: '8px', marginBottom: '24px', boxShadow: '0 0 16px rgba(255,200,1,0.15)',
-          animation: 'fadeInUp 400ms ease-out forwards'
-        }}>
-          <span style={{ color: '#FFC801', fontSize: '13px', fontWeight: 600 }}>⚡ New</span>
-          <span style={{ color: 'rgba(241,246,244,0.7)', fontFamily: 'var(--font-body)', fontSize: '13px' }}>AI-Powered Automation, Now Smarter</span>
-        </div>
+      <div className="relative z-10 flex flex-col items-center w-full px-6 text-center">
+        {/* 1. Badge */}
+        <motion.div
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-4 py-1.5 text-sm text-muted-foreground font-body mb-6"
+        >
+          Now with GPT-5 support ✨
+        </motion.div>
 
-        {/* Headline */}
-        <h1 className="hero-headline" style={{ 
-          fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#F1F6F4', 
-          letterSpacing: '-3px', lineHeight: 1.05, margin: '0 0 24px 0', whiteSpace: 'pre-wrap' 
-        }}>
-          {headlineText}
-          <span style={{ 
-            animation: 'blink 1s step-end infinite', 
-            display: isTyping ? 'inline-block' : 'none' 
-          }}>|</span>
-        </h1>
+        {/* 2. Headline */}
+        <motion.h1
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-display text-5xl md:text-6xl lg:text-[5rem] leading-[0.95] tracking-tight text-foreground max-w-xl"
+        >
+          The Future of <span className="font-display italic">Smarter</span> Automation
+        </motion.h1>
 
-        {/* Subheadline */}
-        <p style={{ 
-          fontFamily: 'var(--font-body)', fontSize: '20px', color: 'rgba(241,246,244,0.65)', 
-          maxWidth: '640px', margin: '0 0 40px 0',
-          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '200ms', opacity: 0
-        }}>
-          Upload your datasets, define your logic, and watch NeuralOps extract, transform, and deliver real-time insights — automatically.
-        </p>
+        {/* 3. Subheadline */}
+        <motion.p
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-4 text-base md:text-lg text-muted-foreground max-w-[650px] leading-relaxed font-body"
+        >
+          Automate your busywork with intelligent agents that learn, adapt, and execute—so your team can focus on what matters most.
+        </motion.p>
 
-        {/* CTA Row */}
-        <div style={{ 
-          display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center',
-          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '300ms', opacity: 0
-        }}>
-          <a href="#trial" className="hero-btn-primary">Start Free Trial</a>
-          <a href="#demo" className="hero-btn-secondary">Watch Demo ▶</a>
-        </div>
+        {/* 4. CTA Buttons */}
+        <motion.div
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-5 flex items-center gap-3"
+        >
+          <button className="rounded-full px-6 py-4 text-sm font-medium font-body bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            Book a demo
+          </button>
+          <button className="flex items-center justify-center h-11 w-11 rounded-full border-0 bg-background shadow-[0_2px_12px_rgba(0,0,0,0.08)] hover:bg-background/80 transition-colors">
+            <Play className="h-4 w-4 fill-foreground" />
+          </button>
+        </motion.div>
 
-        {/* Social Proof Strip */}
-        <div style={{ 
-          marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px',
-          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '400ms', opacity: 0
-        }}>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(241,246,244,0.4)' }}>
-            Trusted by 2,400+ teams
-          </span>
-          <div style={{ display: 'flex', gap: '24px', filter: 'grayscale(100%) opacity(0.5)' }}>
-            {/* Grayscale SVG placeholders */}
-            {[1, 2, 3, 4].map(i => (
-              <svg key={i} width="80" height="24" viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="80" height="24" rx="4" fill="#D9E8E2"/>
-              </svg>
-            ))}
+        {/* 5. Dashboard Preview */}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-8 w-full max-w-5xl"
+        >
+          <div
+            className="rounded-2xl overflow-hidden p-3 md:p-4 w-full flex"
+            style={{
+              background: 'rgba(255, 255, 255, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.5)',
+              boxShadow: 'var(--shadow-dashboard)',
+            }}
+          >
+            {/* Dashboard Inner Container */}
+            <div className="w-full bg-background rounded-xl overflow-hidden flex flex-col font-body text-[11px] select-none pointer-events-none border border-border shadow-sm h-[600px]">
+              
+              {/* Top Bar */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-primary text-primary-foreground rounded flex items-center justify-center font-bold text-xs">N</div>
+                  <span className="font-semibold text-foreground text-xs">Nexora</span>
+                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                </div>
+                
+                <div className="flex-1 max-w-md mx-8 flex items-center bg-secondary/50 rounded-md px-3 py-1.5 border border-border">
+                  <Search className="w-3.5 h-3.5 text-muted-foreground mr-2" />
+                  <span className="text-muted-foreground flex-1">Search...</span>
+                  <span className="text-[10px] text-muted-foreground border border-border rounded px-1.5 py-0.5 bg-background">⌘K</span>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <button className="bg-primary text-primary-foreground px-3 py-1.5 rounded text-[10px] font-medium">Move Money</button>
+                  <Bell className="w-4 h-4 text-muted-foreground" />
+                  <div className="w-6 h-6 rounded-full bg-accent/20 text-accent font-semibold flex items-center justify-center text-[10px]">JB</div>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="flex flex-1 overflow-hidden">
+                {/* Sidebar */}
+                <div className="w-40 border-r border-border bg-background flex flex-col py-3">
+                  <div className="px-3 flex flex-col gap-1">
+                    <div className="flex items-center gap-2 px-2 py-1.5 bg-secondary rounded-md text-foreground font-medium">
+                      <Home className="w-3.5 h-3.5" /> Home
+                    </div>
+                    <div className="flex items-center justify-between px-2 py-1.5 text-muted-foreground">
+                      <div className="flex items-center gap-2"><CheckSquare className="w-3.5 h-3.5" /> Tasks</div>
+                      <span className="bg-accent text-accent-foreground rounded-full px-1.5 py-0.5 text-[8px] font-bold">10</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"><ArrowRightLeft className="w-3.5 h-3.5" /> Transactions</div>
+                    <div className="flex items-center justify-between px-2 py-1.5 text-muted-foreground">
+                      <div className="flex items-center gap-2"><CreditCard className="w-3.5 h-3.5" /> Payments</div>
+                      <ChevronDown className="w-3 h-3" />
+                    </div>
+                    <div className="flex items-center gap-2 px-2 py-1.5 text-muted-foreground"><PieChart className="w-3.5 h-3.5" /> Capital</div>
+                    <div className="flex items-center justify-between px-2 py-1.5 text-muted-foreground">
+                      <div className="flex items-center gap-2"><Users className="w-3.5 h-3.5" /> Accounts</div>
+                      <ChevronDown className="w-3 h-3" />
+                    </div>
+                  </div>
+
+                  <div className="mt-6 px-3">
+                    <span className="px-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 block">Workflows</span>
+                    <div className="flex flex-col gap-1 text-muted-foreground">
+                      <div className="px-2 py-1.5">Trade routes</div>
+                      <div className="px-2 py-1.5">Payments</div>
+                      <div className="px-2 py-1.5">Notifications</div>
+                      <div className="flex items-center gap-2 px-2 py-1.5"><Settings className="w-3.5 h-3.5" /> Settings</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="flex-1 bg-secondary/30 p-6 flex flex-col gap-6 overflow-y-auto text-left">
+                  <h2 className="text-sm font-semibold text-foreground">Welcome, Jane</h2>
+                  
+                  {/* Actions Row */}
+                  <div className="flex items-center gap-2">
+                    {['Send', 'Request', 'Transfer', 'Deposit', 'Pay Bill', 'Create Invoice'].map((action, i) => (
+                      <div key={action} className={`px-4 py-1.5 rounded-full text-[10px] font-medium ${i === 0 ? 'bg-accent text-accent-foreground' : 'bg-background border border-border text-foreground'}`}>
+                        {action}
+                      </div>
+                    ))}
+                    <span className="text-muted-foreground ml-auto hover:underline cursor-pointer">Customize</span>
+                  </div>
+
+                  {/* Cards Row */}
+                  <div className="flex gap-4 w-full">
+                    
+                    {/* Balance Card */}
+                    <div className="flex-1 basis-0 bg-background border border-border rounded-xl p-4 flex flex-col">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                        Mercury Balance <span className="bg-green-100 text-green-700 rounded-full w-3 h-3 flex items-center justify-center text-[8px]">✓</span>
+                      </div>
+                      <div className="text-2xl font-semibold text-foreground mb-4">
+                        $8,450,190.<span className="text-xs text-muted-foreground">32</span>
+                      </div>
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="text-muted-foreground">Last 30 Days</span>
+                        <span className="text-green-500 font-medium">+$1.8M</span>
+                        <span className="text-red-500 font-medium">-$900K</span>
+                      </div>
+                      {/* Custom SVG Chart */}
+                      <div className="h-20 w-full mt-auto relative">
+                        <svg className="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+                              <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.15" />
+                              <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M0,40 L0,20 C15,20 20,10 35,15 C50,20 60,5 75,10 C90,15 95,25 100,20 L100,40 Z" fill="url(#chartGradient)" />
+                          <path d="M0,20 C15,20 20,10 35,15 C50,20 60,5 75,10 C90,15 95,25 100,20" fill="none" stroke="hsl(var(--accent))" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Accounts Card */}
+                    <div className="flex-1 basis-0 bg-background border border-border rounded-xl p-4 flex flex-col">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="font-semibold text-foreground">Accounts</span>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Plus className="w-3.5 h-3.5" />
+                          <MoreVertical className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col flex-1">
+                        <div className="flex justify-between items-center py-3">
+                          <span className="text-foreground font-medium">Credit</span>
+                          <span className="text-muted-foreground">$98,125.50</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3">
+                          <span className="text-foreground font-medium">Treasury</span>
+                          <span className="text-muted-foreground">$6,750,200.00</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3">
+                          <span className="text-foreground font-medium">Operations</span>
+                          <span className="text-muted-foreground">$1,592,864.82</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Transactions Table */}
+                  <div className="bg-background border border-border rounded-xl p-4 w-full">
+                    <h3 className="font-semibold text-foreground mb-4">Recent Transactions</h3>
+                    <div className="w-full">
+                      <div className="flex items-center text-muted-foreground border-b border-border pb-2 mb-2">
+                        <div className="w-1/4">Date</div>
+                        <div className="w-2/4">Description</div>
+                        <div className="w-1/4 text-right">Amount</div>
+                        <div className="w-1/4 text-right">Status</div>
+                      </div>
+                      
+                      {/* Row 1 */}
+                      <div className="flex items-center py-2 text-foreground">
+                        <div className="w-1/4">Today</div>
+                        <div className="w-2/4 font-medium">AWS</div>
+                        <div className="w-1/4 text-right">-$5,200</div>
+                        <div className="w-1/4 text-right text-amber-500">Pending</div>
+                      </div>
+                      
+                      {/* Row 2 */}
+                      <div className="flex items-center py-2 text-foreground">
+                        <div className="w-1/4">Yesterday</div>
+                        <div className="w-2/4 font-medium">Client Payment</div>
+                        <div className="w-1/4 text-right text-green-500">+$125,000</div>
+                        <div className="w-1/4 text-right text-green-500">Completed</div>
+                      </div>
+
+                      {/* Row 3 */}
+                      <div className="flex items-center py-2 text-foreground">
+                        <div className="w-1/4">Mar 15</div>
+                        <div className="w-2/4 font-medium">Payroll</div>
+                        <div className="w-1/4 text-right">-$85,450</div>
+                        <div className="w-1/4 text-right text-green-500">Completed</div>
+                      </div>
+
+                      {/* Row 4 */}
+                      <div className="flex items-center py-2 text-foreground">
+                        <div className="w-1/4">Mar 14</div>
+                        <div className="w-2/4 font-medium">Office Supplies</div>
+                        <div className="w-1/4 text-right">-$1,200</div>
+                        <div className="w-1/4 text-right text-green-500">Completed</div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-
+        </motion.div>
       </div>
-
-      {/* Bouncing Scroll Chevron */}
-      <div style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
-        <div style={{ animation: 'bounceScroll 2s infinite', color: '#FFC801', fontSize: '24px' }}>↓</div>
-      </div>
-
-      <style>{`
-        .hero-headline { font-size: 80px; }
-        @media (max-width: 1024px) { .hero-headline { font-size: 48px; letter-spacing: -2px; } }
-        @media (max-width: 768px) { .hero-headline { font-size: 32px; letter-spacing: -1px; } }
-
-        .hero-btn-primary {
-          background: linear-gradient(135deg, #FFC801, #FF9932);
-          color: #172B36;
-          font-family: var(--font-heading);
-          font-weight: 500;
-          font-size: 16px;
-          padding: 14px 32px;
-          border-radius: 8px;
-          text-decoration: none;
-          transition: all 150ms ease-out;
-          display: inline-block;
-        }
-        .hero-btn-primary:hover {
-          transform: scale(1.03);
-          filter: brightness(1.1);
-        }
-
-        .hero-btn-secondary {
-          background: transparent;
-          border: 1px solid rgba(241,246,244,0.2);
-          color: #F1F6F4;
-          font-family: var(--font-body);
-          font-size: 16px;
-          padding: 14px 32px;
-          border-radius: 8px;
-          text-decoration: none;
-          transition: all 150ms ease-out;
-          display: inline-block;
-        }
-        .hero-btn-secondary:hover {
-          border-color: #FFC801;
-          color: #FFC801;
-        }
-      `}</style>
     </section>
   );
 }
