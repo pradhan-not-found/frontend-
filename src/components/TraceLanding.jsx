@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { FadeIn } from './FadeIn';
+
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,51 +30,11 @@ const FAQItem = ({ question, answer }) => {
   );
 };
 
-// Word reveal animation setup
-const sentenceVariants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const wordVariants = {
-  hidden: { opacity: 0, y: "100%" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    }
-  }
-};
-
 const AnimatedText = ({ text, className }) => {
-  const words = text.split(" ");
   return (
-    <motion.h1 
-      className={className}
-      variants={sentenceVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-    >
-      {words.map((word, index) => (
-        <React.Fragment key={index}>
-          <span className="inline-block overflow-hidden pb-1">
-            <motion.span className="inline-block" variants={wordVariants}>
-              {word}
-            </motion.span>
-          </span>
-          {index < words.length - 1 && " "}
-        </React.Fragment>
-      ))}
-    </motion.h1>
+    <FadeIn className={className}>
+      {text}
+    </FadeIn>
   );
 };
 
@@ -84,8 +45,48 @@ export default function TraceLanding() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
+  // === PRICING MATRIX (Feature 1) ===
+  // Multi-dimensional config object — no hardcoded UI values
+  const pricingMatrix = {
+    USD: { symbol: '$', rate: 1,     tiers: { solo: 0,   pro: 49,   teams: 89  } },
+    EUR: { symbol: '€', rate: 0.92,  tiers: { solo: 0,   pro: 45,   teams: 82  } },
+    INR: { symbol: '₹', rate: 83,    tiers: { solo: 0,   pro: 4099, teams: 7399 } },
+  };
+  const pricingState = React.useRef({ currency: 'USD', isAnnual: false });
+
+  const computeAndRender = () => {
+    const { currency, isAnnual } = pricingState.current;
+    const { symbol, tiers } = pricingMatrix[currency];
+    const discount = isAnnual ? 0.8 : 1;
+
+    const soloEl  = document.getElementById('price-solo');
+    const proEl   = document.getElementById('price-pro');
+    const teamsEl = document.getElementById('price-teams');
+
+    if (soloEl)  soloEl.textContent  = tiers.solo  === 0 ? 'Free' : `${symbol}${Math.round(tiers.solo  * discount)}`;
+    if (proEl)   proEl.textContent   = `${symbol}${Math.round(tiers.pro   * discount)}`;
+    if (teamsEl) teamsEl.textContent = `${symbol}${Math.round(tiers.teams * discount)}`;
+
+    const monthBtn  = document.getElementById('pricing-monthly-btn');
+    const annualBtn = document.getElementById('pricing-annual-btn');
+    if (monthBtn && annualBtn) {
+      monthBtn.className  = `px-4 py-1.5 rounded-md font-medium cursor-pointer transition-colors ${!isAnnual ? 'bg-white text-zinc-950' : 'text-white/60 hover:text-white'}`;
+      annualBtn.className = `px-4 py-1.5 rounded-md flex items-center gap-2 cursor-pointer transition-colors ${isAnnual ? 'bg-white text-zinc-950' : 'text-white/60 hover:text-white'}`;
+    }
+  };
+
+  const handleCurrencyChange = (e) => {
+    pricingState.current.currency = e.target.value;
+    computeAndRender();
+  };
+
+  const handleBillingToggle = (isAnnual) => {
+    pricingState.current.isAnnual = isAnnual;
+    computeAndRender();
+  };
+
   return (
-    <div className="dark h-full antialiased geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable font-sans inter_b2991b2-module__9mH_6q__variable playfair_display_b7700c01-module__LbZqPq__variable min-h-full bg-zinc-950 relative">
+    <main className="dark h-full antialiased geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable font-sans inter_b2991b2-module__9mH_6q__variable playfair_display_b7700c01-module__LbZqPq__variable min-h-full bg-zinc-950 relative">
       {/* Noise background */}
       <div 
         className="pointer-events-none absolute inset-0 opacity-[0.06] fixed z-[9999]" 
@@ -97,7 +98,7 @@ export default function TraceLanding() {
       />
 
       {/* Navbar */}
-      <div className="w-full fixed top-0 z-50 text-white">
+      <header className="w-full fixed top-0 z-50 text-white">
         <div className="flex items-center justify-between px-8 py-2 relative transition-all duration-300" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 100%)', backdropFilter: 'blur(2px)' }}>
           <a className="nav-logo flex flex-row items-end justify-center cursor-pointer select-none" href="/">
             <img alt="Trackify Logo" width="32" height="32" className="mr-2 rounded-md text-shadow-md" src="/images/logo.png" />
@@ -106,7 +107,7 @@ export default function TraceLanding() {
           <nav className="hidden md:flex items-center gap-6 text-sm text-zinc-100 text-shadow-lg">
             <a href="#features" className="micro-link hover:text-amber-600 transition-colors">Features</a>
             <button onClick={() => setLoginOpen(true)} className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer bg-transparent border-none">Sign In</button>
-            <a href="https://github.com/Subham12R/Trace/releases" className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer">Download</a>
+            <button onClick={(e) => e.preventDefault()} className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-default bg-transparent border-none">Download</button>
           </nav>
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-zinc-100 hover:text-white transition-colors cursor-pointer z-50" aria-label="Toggle menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -116,10 +117,10 @@ export default function TraceLanding() {
           <div className="absolute top-full left-0 w-full border-b border-white/10 flex flex-col items-center gap-6 py-8 md:hidden" style={{ background: 'rgba(9, 9, 11, 0.6)', backdropFilter: 'blur(16px)' }}>
             <a href="#features" className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1">Features</a>
             <button onClick={() => { setLoginOpen(true); setMobileMenuOpen(false); }} className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1 cursor-pointer text-center bg-transparent border-none">Sign In</button>
-            <a href="https://github.com/Subham12R/Trace/releases" className="mobile-nav-item text-lg text-amber-500 hover:text-amber-400 font-medium transition-colors py-1">Download</a>
+            <button onClick={(e) => e.preventDefault()} className="mobile-nav-item text-lg text-amber-500 hover:text-amber-400 font-medium transition-colors py-1 bg-transparent border-none cursor-default">Download</button>
           </div>
         )}
-      </div>
+      </header>
 
       {/* Hero Section */}
       <div className="relative h-screen w-full flex flex-col justify-between px-8 md:px-12 pt-24 pb-10 bg-cover bg-center" style={{ backgroundImage: "url('/images/bg.gif')" }}>
@@ -130,10 +131,10 @@ export default function TraceLanding() {
             className="text-zinc-900 text-shadow-lg text-5xl md:text-6xl lg:text-8xl font-normal max-w-5xl font-serif tracking-tighter" 
           />
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+          <FadeIn as="div" 
+            
+            
+            
             className="flex flex-col items-center gap-4 mt-12 w-full px-4 mx-auto justify-center"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-xs sm:max-w-none">
@@ -149,7 +150,7 @@ export default function TraceLanding() {
                 <span>Download for Windows</span>
               </button>
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </div>
 
@@ -165,11 +166,11 @@ export default function TraceLanding() {
               />
               <p className="text-white/60 text-lg mt-6">One dashboard for every AI tool you use.</p>
             </div>
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
-              whileInView={{ opacity: 1, scale: 1.05, rotateX: 20 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
+            <FadeIn as="div" 
+              
+              
+              
+              
               className="max-w-5xl mt-8 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] bg-[#222222] rounded-3xl shadow-2xl"
               style={{
                 boxShadow: '0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003'
@@ -178,7 +179,7 @@ export default function TraceLanding() {
               <div className="h-full w-full overflow-hidden rounded-2xl bg-zinc-800 dark:bg-zinc-900 md:rounded-2xl md:p-4">
                 <img alt="Trace dashboard" src="/images/demo.png" className="mx-auto rounded-2xl object-cover h-full object-center w-full" />
               </div>
-            </motion.div>
+            </FadeIn>
           </div>
         </div>
       </section>
@@ -193,11 +194,11 @@ export default function TraceLanding() {
             />
           </div>
           
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, staggerChildren: 0.1 }}
+          <FadeIn as="div" 
+            
+            
+            
+            
             className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded shadow overflow-hidden"
           >
             {[
@@ -208,7 +209,7 @@ export default function TraceLanding() {
               { title: "Gemini CLI", desc: "Aggregate Gemini CLI usage from ~/.gemini/tmp/ and surface a full cost picture across sessions.", icon: "gemini.svg" },
               { title: "Ollama", desc: "Track local model usage and inference across all your Ollama sessions without any configuration.", icon: "ollama.svg" }
             ].map((feat, i) => (
-              <motion.div 
+              <FadeIn as="div" 
                 key={i} 
                 whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.04)" }}
                 className="feat-card p-8 flex flex-col justify-between min-h-56 border-2 rounded shadow border-white/10 transition-colors"
@@ -218,15 +219,15 @@ export default function TraceLanding() {
                   <p className="text-amber-50 text-md leading-relaxed font-helvetica">{feat.desc}</p>
                 </div>
                 <img src={`/logos/${feat.icon}`} alt={feat.title} className="h-8 w-8 object-contain mt-8" />
-              </motion.div>
+              </FadeIn>
             ))}
-          </motion.div>
+          </FadeIn>
 
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 1 }}
+          <FadeIn as="div" 
+            
+            
+            
+            
             className="mt-16"
           >
             <p className="text-zinc-500 text-sm font-helvetica mb-6 uppercase tracking-widest">Supported tools & providers</p>
@@ -261,7 +262,7 @@ export default function TraceLanding() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
@@ -274,22 +275,22 @@ export default function TraceLanding() {
               text="Teams that work with Trackify AI, not around it" 
               className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal leading-tight mx-auto max-w-3xl mb-6" 
             />
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+            <FadeIn as="p" 
+              
+              
+              
+              
               className="text-white/40 text-lg md:text-xl font-helvetica max-w-2xl mx-auto leading-relaxed"
             >
               From solo developers to enterprise teams — here's what our users have to say after making Trackify AI their daily partner.
-            </motion.p>
+            </FadeIn>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+          <FadeIn as="div" 
+            
+            
+            
+            
             className="relative flex overflow-hidden w-full mt-10"
             style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
           >
@@ -379,12 +380,12 @@ export default function TraceLanding() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section className="relative bg-zinc-950 px-8 md:px-12 py-28">
+      <section id="pricing" className="relative bg-zinc-950 px-8 md:px-12 py-28">
         <div className="relative max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <div className="max-w-2xl">
@@ -398,12 +399,20 @@ export default function TraceLanding() {
               <p className="text-white/40 text-base md:text-lg font-helvetica max-w-sm text-left md:text-right">
                 Start free, scale as you grow. Every plan includes core features — upgrade when you need more power or seats.
               </p>
-              {/* Toggle */}
-              <div className="bg-white/5 border border-white/10 rounded-lg p-1 flex items-center font-helvetica text-sm">
-                <button className="bg-white text-zinc-950 px-4 py-1.5 rounded-md font-medium cursor-pointer">Monthly</button>
-                <button className="text-white/60 px-4 py-1.5 rounded-md hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
-                  Annual <span className="bg-amber-500/20 text-amber-400 text-[10px] px-1.5 py-0.5 rounded font-bold">-15%</span>
-                </button>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                {/* Currency Switcher */}
+                <select id="currency-select" onChange={handleCurrencyChange} className="bg-zinc-900 border border-white/10 text-white/80 text-sm rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-amber-500 font-helvetica cursor-pointer">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="INR">INR (₹)</option>
+                </select>
+                {/* Billing Toggle */}
+                <div className="bg-white/5 border border-white/10 rounded-lg p-1 flex items-center font-helvetica text-sm">
+                  <button id="pricing-monthly-btn" onClick={() => handleBillingToggle(false)} className="bg-white text-zinc-950 px-4 py-1.5 rounded-md font-medium cursor-pointer transition-colors">Monthly</button>
+                  <button id="pricing-annual-btn" onClick={() => handleBillingToggle(true)} className="text-white/60 px-4 py-1.5 rounded-md hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+                    Annual <span className="bg-amber-500/20 text-amber-400 text-[10px] px-1.5 py-0.5 rounded font-bold">-20%</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -413,7 +422,7 @@ export default function TraceLanding() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
               <h4 className="font-serif text-2xl text-white italic mb-2">Solo</h4>
               <div className="mb-2">
-                <span className="text-5xl font-serif text-white">$0</span>
+                <span id="price-solo" className="text-5xl font-serif text-white">$0</span>
               </div>
               <p className="text-white/40 font-helvetica text-sm mb-6 pb-6 border-b border-white/10 min-h-[100px]">Free forever<br/><br/>Perfect for individuals getting started with AI-powered productivity. No credit card required.</p>
               
@@ -436,16 +445,14 @@ export default function TraceLanding() {
 
             {/* Pro Plan */}
             <div className="relative rounded-2xl overflow-hidden p-8 flex flex-col h-full border border-amber-500/30 shadow-[0_0_30px_rgba(245,158,11,0.1)] group hover:-translate-y-1 transition-transform duration-300">
-              {/* Background */}
               <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: "url('/images/bg.gif')" }}></div>
               <div className="absolute inset-0 bg-zinc-950/60 backdrop-blur-[6px] z-0"></div>
-              {/* Subtle gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent z-0"></div>
               
               <div className="relative z-10 flex flex-col h-full">
                 <h4 className="font-serif text-2xl text-white italic mb-2">Pro</h4>
                 <div className="mb-2">
-                  <span className="text-5xl font-serif text-white">$49</span>
+                  <span id="price-pro" className="text-5xl font-serif text-white">$49</span>
                 </div>
                 <p className="text-white/80 font-helvetica text-sm mb-6 pb-6 border-b border-white/20 min-h-[100px]">per month, billed monthly<br/><br/>The full Trace experience for professionals who want a true AI partner in their work.</p>
                 
@@ -471,7 +478,7 @@ export default function TraceLanding() {
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300">
               <h4 className="font-serif text-2xl text-white italic mb-2">Teams</h4>
               <div className="mb-2">
-                <span className="text-5xl font-serif text-white">$89</span>
+                <span id="price-teams" className="text-5xl font-serif text-white">$89</span>
               </div>
               <p className="text-white/40 font-helvetica text-sm mb-6 pb-6 border-b border-white/10 min-h-[100px]">per seat / month<br/><br/>For growing teams that want shared intelligence, role-based access, and advanced tools.</p>
               
@@ -495,6 +502,7 @@ export default function TraceLanding() {
           </div>
         </div>
       </section>
+
 
       {/* FAQ Section */}
       <section className="relative bg-zinc-950 px-8 md:px-12 py-28">
@@ -584,11 +592,11 @@ export default function TraceLanding() {
       </footer>
 
       {/* Login Modal Overlay */}
-      <AnimatePresence>
+      
         {loginOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <FadeIn as="div" 
+            
+            
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex bg-zinc-950 font-sans antialiased overflow-y-auto"
           >
@@ -721,9 +729,9 @@ export default function TraceLanding() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </FadeIn>
         )}
-      </AnimatePresence>
-    </div>
+      
+    </main>
   );
 }
