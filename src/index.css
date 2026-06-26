@@ -17,8 +17,8 @@
   --color-noir: #172B36;
 
   /* Typography */
-  --font-jetbrains: "JetBrains Mono", monospace;
-  --font-inter: "Inter", sans-serif;
+  --font-heading: "JetBrains Mono", monospace;
+  --font-body: "Inter", sans-serif;
 }
 
 *, *::before, *::after {
@@ -30,7 +30,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-body);
   background-color: var(--color-arctic-powder);
   color: var(--color-noir);
   -webkit-font-smoothing: antialiased;
@@ -42,4 +42,13 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes bounceScroll { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.animate-fade-in-up {
+  animation: fadeInUp 400ms ease-out forwards;
 }

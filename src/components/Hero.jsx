@@ -1,76 +1,238 @@
-export default function Hero() {
-  return (
-    <section style={{ position: 'relative', minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'var(--color-arctic-powder)', paddingTop: '6rem' }}>
-      
-      {/* Background Video Wrapper */}
-      <div style={{ position: 'absolute', top: '15vh', left: 0, width: '100%', height: '85vh', zIndex: 0, pointerEvents: 'none' }}>
-        <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 1 }}>
-          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4" type="video/mp4" />
-        </video>
-        {/* Gradient Mask to blend top into Arctic Powder */}
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '8rem', background: 'linear-gradient(to bottom, #F1F6F4, transparent)' }}></div>
-      </div>
+import { useEffect, useRef, useState } from 'react';
 
-      {/* Hero Content Alignment */}
-      <div className="hero-content-wrapper" style={{ maxWidth: '80rem', width: '100%', margin: '0 auto', position: 'relative', zIndex: 10, padding: '4rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '10vh' }}>
+export default function Hero() {
+  const videoRef = useRef(null);
+  const rafRef = useRef(null);
+  const fadingOutRef = useRef(false);
+
+  // Custom JS Fader (requestAnimationFrame)
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const fadeDuration = 250;
+
+    const animateFade = (startOpacity, targetOpacity, onComplete) => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      
+      const startTime = performance.now();
+      const tick = (now) => {
+        const elapsed = now - startTime;
+        let progress = elapsed / fadeDuration;
+        if (progress > 1) progress = 1;
         
-        {/* Native CSS Slide Up Fade applied via 'hero-animate' class */}
-        <h1 className="hero-animate" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', fontFamily: 'var(--font-inter)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textShadow: '0 4px 12px rgba(241, 246, 244, 0.4)' }}>
-          <span style={{ color: '#172B36' }}>NexAI offers</span><br />
-          <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>information</span><br />
-          <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>and resources to scale</span><br />
-          
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.25rem' }}>
-            <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>your</span>
-            {/* The Eye/Pill Inline Visual Element */}
-            <span style={{ width: 'clamp(3rem, 5vw, 4.5rem)', height: 'clamp(1.6rem, 3vw, 2.25rem)', border: '2.5px solid #172B36', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(241, 246, 244, 0.3)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}>
-              <span style={{ width: '0.6rem', height: '0.6rem', backgroundColor: '#172B36', borderRadius: '50%' }}></span>
-            </span>
-            <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>AI infrastructure.</span>
-          </div>
+        video.style.opacity = startOpacity + (targetOpacity - startOpacity) * progress;
+        
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else {
+          if (onComplete) onComplete();
+        }
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    // Fade in on initial load
+    video.style.opacity = 0;
+    
+    const onLoadedData = () => {
+      animateFade(0, 1);
+    };
+
+    const onTimeUpdate = () => {
+      // 250ms fade-out when 0.55s remain
+      if (video.duration && video.currentTime >= video.duration - 0.55) {
+        if (!fadingOutRef.current) {
+          fadingOutRef.current = true;
+          animateFade(1, 0);
+        }
+      }
+    };
+
+    const onEnded = () => {
+      video.style.opacity = 0;
+      setTimeout(() => {
+        video.currentTime = 0;
+        video.play().catch(e => console.log('Autoplay prevented:', e));
+        fadingOutRef.current = false;
+        animateFade(0, 1);
+      }, 100);
+    };
+
+    video.addEventListener('loadeddata', onLoadedData);
+    video.addEventListener('timeupdate', onTimeUpdate);
+    video.addEventListener('ended', onEnded);
+
+    // If already loaded
+    if (video.readyState >= 2) onLoadedData();
+
+    return () => {
+      video.removeEventListener('loadeddata', onLoadedData);
+      video.removeEventListener('timeupdate', onTimeUpdate);
+      video.removeEventListener('ended', onEnded);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  // Typewriter Effect
+  const headlineFull = "Transform Raw Data\nInto Intelligence.";
+  const [headlineText, setHeadlineText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timeout;
+    let currentIndex = 0;
+
+    const typeChar = () => {
+      if (currentIndex <= headlineFull.length) {
+        setHeadlineText(headlineFull.slice(0, currentIndex));
+        currentIndex++;
+        timeout = setTimeout(typeChar, 38);
+      } else {
+        setIsTyping(false);
+      }
+    };
+
+    const startDelay = setTimeout(typeChar, 600);
+    return () => {
+      clearTimeout(startDelay);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  return (
+    <section style={{ 
+      position: 'relative', width: '100%', height: '100vh', 
+      backgroundColor: '#172B36', display: 'flex', flexDirection: 'column', 
+      alignItems: 'center', justifyContent: 'center', overflow: 'hidden' 
+    }}>
+      
+      {/* Video Background */}
+      <video 
+        ref={videoRef}
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4"
+        muted playsInline autoPlay
+        style={{
+          position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+          width: '115%', height: '115%', objectFit: 'cover', objectPosition: 'top center',
+          pointerEvents: 'none', zIndex: 0
+        }}
+      />
+      
+      {/* Gradient Overlay */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
+        background: 'linear-gradient(to bottom, rgba(23,43,54,0.55) 0%, rgba(17,76,90,0.82) 100%)'
+      }}></div>
+
+      {/* Hero Content */}
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 24px', maxWidth: '800px', width: '100%' }}>
+        
+        {/* Badge */}
+        <div style={{ 
+          backgroundColor: 'rgba(17,76,90,0.6)', border: '1px solid rgba(255,200,1,0.3)', 
+          borderRadius: '9999px', padding: '4px 12px', display: 'inline-flex', alignItems: 'center', 
+          gap: '8px', marginBottom: '24px', boxShadow: '0 0 16px rgba(255,200,1,0.15)',
+          animation: 'fadeInUp 400ms ease-out forwards'
+        }}>
+          <span style={{ color: '#FFC801', fontSize: '13px', fontWeight: 600 }}>⚡ New</span>
+          <span style={{ color: 'rgba(241,246,244,0.7)', fontFamily: 'var(--font-body)', fontSize: '13px' }}>AI-Powered Automation, Now Smarter</span>
+        </div>
+
+        {/* Headline */}
+        <h1 className="hero-headline" style={{ 
+          fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#F1F6F4', 
+          letterSpacing: '-3px', lineHeight: 1.05, margin: '0 0 24px 0', whiteSpace: 'pre-wrap' 
+        }}>
+          {headlineText}
+          <span style={{ 
+            animation: 'blink 1s step-end infinite', 
+            display: isTyping ? 'inline-block' : 'none' 
+          }}>|</span>
         </h1>
 
-        {/* Search Pill Component */}
-        <div className="hero-animate" style={{ animationDelay: '150ms', marginTop: '3.5rem', backgroundColor: '#fff', borderRadius: '9999px', border: '1px solid rgba(23,43,54,0.1)', padding: '0.4rem 0.4rem 0.4rem 1.5rem', display: 'inline-flex', alignItems: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', maxWidth: '100%' }}>
-          <input 
-            type="text" 
-            placeholder="Ask me anything..." 
-            style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', color: '#172B36', fontSize: '1.05rem', width: '260px', maxWidth: '60vw', fontFamily: 'var(--font-inter)' }} 
-          />
-          <button className="search-btn" style={{ backgroundColor: '#172B36', color: '#fff', width: '2.75rem', height: '2.75rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', flexShrink: 0, transition: 'background-color 0.2s, transform 0.2s', boxShadow: '0 4px 10px rgba(23,43,54,0.2)' }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <img src="/SVGs/chevron-right.svg" alt="" style={{ width: '1.25rem', height: '1.25rem', filter: 'invert(1)' }} />
-          </button>
+        {/* Subheadline */}
+        <p style={{ 
+          fontFamily: 'var(--font-body)', fontSize: '20px', color: 'rgba(241,246,244,0.65)', 
+          maxWidth: '640px', margin: '0 0 40px 0',
+          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '200ms', opacity: 0
+        }}>
+          Upload your datasets, define your logic, and watch NeuralOps extract, transform, and deliver real-time insights — automatically.
+        </p>
+
+        {/* CTA Row */}
+        <div style={{ 
+          display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center',
+          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '300ms', opacity: 0
+        }}>
+          <a href="#trial" className="hero-btn-primary">Start Free Trial</a>
+          <a href="#demo" className="hero-btn-secondary">Watch Demo ▶</a>
+        </div>
+
+        {/* Social Proof Strip */}
+        <div style={{ 
+          marginTop: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px',
+          animation: 'fadeInUp 400ms ease-out forwards', animationDelay: '400ms', opacity: 0
+        }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(241,246,244,0.4)' }}>
+            Trusted by 2,400+ teams
+          </span>
+          <div style={{ display: 'flex', gap: '24px', filter: 'grayscale(100%) opacity(0.5)' }}>
+            {/* Grayscale SVG placeholders */}
+            {[1, 2, 3, 4].map(i => (
+              <svg key={i} width="80" height="24" viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="80" height="24" rx="4" fill="#D9E8E2"/>
+              </svg>
+            ))}
+          </div>
         </div>
 
       </div>
 
-      {/* Architectural Edge Anchors */}
-      <div className="edge-anchor right-middle" style={{ position: 'absolute', right: '2rem', top: '50%', transform: 'translateY(-50%)', padding: '0.5rem 1rem', backgroundColor: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 600, color: '#172B36', zIndex: 10, border: '1px solid rgba(23,43,54,0.1)' }}>
-        pl — en
-      </div>
-      
-      <div className="edge-anchor left-bottom" style={{ position: 'absolute', left: '2rem', bottom: '2rem', fontSize: '0.75rem', fontWeight: 600, color: '#172B36', zIndex: 10 }}>
-        2026
-      </div>
-      
-      <div className="edge-anchor right-bottom" style={{ position: 'absolute', right: '2rem', bottom: '2rem', fontSize: '0.75rem', fontWeight: 600, color: '#172B36', zIndex: 10 }}>
-        mental health tools
+      {/* Bouncing Scroll Chevron */}
+      <div style={{ position: 'absolute', bottom: '32px', left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+        <div style={{ animation: 'bounceScroll 2s infinite', color: '#FFC801', fontSize: '24px' }}>↓</div>
       </div>
 
       <style>{`
-        .search-btn:hover { background-color: #114C5A !important; }
-        .hero-text-container { margin-left: 8.33%; width: 83.33%; }
-        
-        @media (max-width: 768px) {
-          .hero-text-container { margin-left: 0; width: 100%; }
-          .edge-anchor.right-middle { display: none; }
-          .edge-anchor.left-bottom { bottom: 1rem; left: 1.5rem; }
-          .edge-anchor.right-bottom { bottom: 1rem; right: 1.5rem; }
+        .hero-headline { font-size: 80px; }
+        @media (max-width: 1024px) { .hero-headline { font-size: 48px; letter-spacing: -2px; } }
+        @media (max-width: 768px) { .hero-headline { font-size: 32px; letter-spacing: -1px; } }
+
+        .hero-btn-primary {
+          background: linear-gradient(135deg, #FFC801, #FF9932);
+          color: #172B36;
+          font-family: var(--font-heading);
+          font-weight: 500;
+          font-size: 16px;
+          padding: 14px 32px;
+          border-radius: 8px;
+          text-decoration: none;
+          transition: all 150ms ease-out;
+          display: inline-block;
+        }
+        .hero-btn-primary:hover {
+          transform: scale(1.03);
+          filter: brightness(1.1);
+        }
+
+        .hero-btn-secondary {
+          background: transparent;
+          border: 1px solid rgba(241,246,244,0.2);
+          color: #F1F6F4;
+          font-family: var(--font-body);
+          font-size: 16px;
+          padding: 14px 32px;
+          border-radius: 8px;
+          text-decoration: none;
+          transition: all 150ms ease-out;
+          display: inline-block;
+        }
+        .hero-btn-secondary:hover {
+          border-color: #FFC801;
+          color: #FFC801;
         }
       `}</style>
     </section>
-  )
+  );
 }

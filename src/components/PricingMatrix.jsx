@@ -1,163 +1,163 @@
-import { useState } from 'react';
-import PriceTextNode from './PriceTextNode';
-import { pricingState, pricingMatrix } from '../data/pricingMatrix';
+import { useState, useEffect, useRef } from 'react';
+import { PRICING_MATRIX } from '../data/pricingMatrix';
 
 export default function PricingMatrix() {
-  const [activeCycle, setActiveCycle] = useState(pricingState.state.billingCycle);
-  const [activeCurrency, setActiveCurrency] = useState(pricingState.state.currency);
+  const [isAnnual, setIsAnnual] = useState(true);
+  const [currency, setCurrency] = useState('USD');
+  const starterPriceRef = useRef(null);
+  const proPriceRef = useRef(null);
+  const enterprisePriceRef = useRef(null);
 
-  const handleCycleChange = (cycle) => {
-    setActiveCycle(cycle);
-    pricingState.setBillingCycle(cycle);
+  const calculatePrice = (basePrice, ann, curr) => {
+    let finalPrice = basePrice * PRICING_MATRIX.tariffs[curr];
+    if (ann) finalPrice *= PRICING_MATRIX.annual_multiplier;
+    return finalPrice.toFixed(PRICING_MATRIX.format[curr]);
   };
 
-  const handleCurrencyChange = (e) => {
-    const currency = e.target.value;
-    setActiveCurrency(currency);
-    pricingState.setCurrency(currency);
-  };
+  // State Isolation: directly update DOM nodes to avoid React re-renders of the whole component
+  useEffect(() => {
+    if (starterPriceRef.current) {
+      starterPriceRef.current.textContent = `${PRICING_MATRIX.symbols[currency]}${calculatePrice(PRICING_MATRIX.base.starter, isAnnual, currency)}`;
+    }
+    if (proPriceRef.current) {
+      proPriceRef.current.textContent = `${PRICING_MATRIX.symbols[currency]}${calculatePrice(PRICING_MATRIX.base.pro, isAnnual, currency)}`;
+    }
+    if (enterprisePriceRef.current) {
+      enterprisePriceRef.current.textContent = `${PRICING_MATRIX.symbols[currency]}${calculatePrice(PRICING_MATRIX.base.enterprise, isAnnual, currency)}`;
+    }
+  }, [isAnnual, currency]);
+
+  const plans = [
+    { id: 'starter', name: 'Starter', ref: starterPriceRef, features: ['10GB Data Ingestion', 'Standard Support', 'Daily Backups'] },
+    { id: 'pro', name: 'Pro', ref: proPriceRef, isPopular: true, features: ['100GB Data Ingestion', 'Priority Support', 'Real-time Backups', 'Custom Webhooks'] },
+    { id: 'enterprise', name: 'Enterprise', ref: enterprisePriceRef, features: ['Unlimited Data Ingestion', '24/7 Dedicated Support', 'Real-time Backups', 'Custom Webhooks', 'Advanced Auditing'] }
+  ];
 
   return (
-    <section style={{ padding: '6rem 1.5rem', maxWidth: '80rem', margin: '0 auto' }}>
-      {/* Heading */}
-      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <h2 id="pricing-heading" style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '2.25rem', fontWeight: 700, color: '#172B36', marginBottom: '1rem' }}>
-          Simple, Transparent Pricing
+    <section id="pricing" style={{ backgroundColor: '#172B36', padding: '100px 24px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        
+        <h2 style={{ fontFamily: 'var(--font-heading)', color: '#F1F6F4', fontSize: '32px', textAlign: 'center', marginBottom: '24px' }}>
+          Transparent Pricing
         </h2>
-        <p style={{ color: 'rgba(17,76,90,0.8)', maxWidth: '32rem', margin: '0 auto 2rem', lineHeight: 1.7 }}>
-          Unlock the full power of AI automation. No hidden fees.
-        </p>
 
-        {/* Controls — these are the only things that re-render in this component */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
-          {/* Billing toggle */}
-          <div style={{ display: 'flex', backgroundColor: '#F1F6F4', border: '1.5px solid #D9E8E2', borderRadius: '9999px', padding: '0.25rem' }}>
-            {['monthly', 'annual'].map(cycle => (
-              <button
-                key={cycle}
-                onClick={() => handleCycleChange(cycle)}
-                style={{
-                  padding: '0.5rem 1.25rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.18s ease-out, color 0.18s ease-out, box-shadow 0.18s ease-out',
-                  backgroundColor: activeCycle === cycle ? '#172B36' : 'transparent',
-                  color: activeCycle === cycle ? '#fff' : '#114C5A',
-                  boxShadow: activeCycle === cycle ? '0 2px 8px rgba(23,43,54,0.2)' : 'none',
-                }}
-              >
-                {cycle === 'monthly' ? 'Monthly' : 'Annual  (−20%)'}
-              </button>
-            ))}
+        {/* Controls Container */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', marginBottom: '64px' }}>
+          
+          {/* Billing Toggle */}
+          <div style={{ 
+            backgroundColor: '#114C5A', borderRadius: '999px', padding: '4px', 
+            display: 'inline-flex', position: 'relative', cursor: 'pointer' 
+          }} onClick={() => setIsAnnual(!isAnnual)}>
+            {/* Sliding Pill */}
+            <div style={{
+              position: 'absolute', top: '4px', bottom: '4px', width: '50%',
+              background: 'linear-gradient(135deg, #FFC801, #FF9932)',
+              borderRadius: '999px', transition: 'transform 200ms ease-out',
+              transform: isAnnual ? 'translateX(100%)' : 'translateX(0)'
+            }} />
+            <div style={{ 
+              position: 'relative', zIndex: 1, padding: '8px 24px', 
+              fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 500,
+              color: !isAnnual ? '#172B36' : 'rgba(241,246,244,0.6)', transition: 'color 200ms ease-out'
+            }}>Monthly</div>
+            <div style={{ 
+              position: 'relative', zIndex: 1, padding: '8px 24px', 
+              fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 500,
+              color: isAnnual ? '#172B36' : 'rgba(241,246,244,0.6)', transition: 'color 200ms ease-out'
+            }}>Annually</div>
           </div>
 
-          {/* Currency select */}
+          {/* Currency Dropdown */}
           <div style={{ position: 'relative' }}>
-            <select
-              value={activeCurrency}
-              onChange={handleCurrencyChange}
+            <select 
+              value={currency} 
+              onChange={(e) => setCurrency(e.target.value)}
               style={{
-                appearance: 'none',
-                WebkitAppearance: 'none',
-                backgroundColor: '#fff',
-                border: '1.5px solid #D9E8E2',
-                color: '#172B36',
-                padding: '0.55rem 2.5rem 0.55rem 1rem',
-                borderRadius: '0.625rem',
-                fontFamily: 'var(--font-jetbrains)',
-                fontWeight: 600,
-                fontSize: '0.875rem',
-                cursor: 'pointer',
-                outline: 'none',
-                transition: 'border-color 0.18s ease-out',
+                backgroundColor: '#114C5A', border: '1px solid rgba(217,232,226,0.2)',
+                color: '#F1F6F4', fontFamily: 'var(--font-body)', fontSize: '14px',
+                padding: '10px 36px 10px 16px', borderRadius: '8px', appearance: 'none',
+                outline: 'none', cursor: 'pointer'
               }}
-              onFocus={e => e.target.style.borderColor = '#FFC801'}
-              onBlur={e => e.target.style.borderColor = '#D9E8E2'}
             >
-              <option value="USD">USD ($)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="INR">INR (₹)</option>
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR €</option>
+              <option value="INR">INR ₹</option>
             </select>
-            <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#114C5A' }}>
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 11L2 5h12z"/></svg>
+            {/* Custom Arrow */}
+            <div style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#FFC801', fontSize: '12px' }}>
+              ▼
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Tier cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-        {Object.entries(pricingMatrix.tiers).map(([tierId, tier]) => (
-          <div
-            key={tierId}
-            className="pricing-card"
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: '1.25rem',
-              padding: '2rem',
-              border: '1.5px solid #D9E8E2',
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'relative',
-              overflow: 'hidden',
-              transition: 'border-color 0.25s ease-out, box-shadow 0.25s ease-out',
-            }}
-          >
-            {/* Top accent line */}
-            <div className="card-accent-line" style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '3px',
-              backgroundColor: '#D9E8E2',
-              transition: 'background-color 0.25s ease-out',
-            }} />
+        {/* Pricing Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+          {plans.map((plan) => (
+            <div key={plan.id} style={{
+              backgroundColor: '#114C5A',
+              border: plan.isPopular ? '2px solid #FFC801' : '1px solid rgba(217,232,226,0.12)',
+              borderRadius: '16px', padding: '32px', position: 'relative',
+              boxShadow: plan.isPopular ? '0 0 32px rgba(255,200,1,0.2)' : 'none',
+              display: 'flex', flexDirection: 'column'
+            }}>
+              {plan.isPopular && (
+                <div style={{
+                  position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)',
+                  background: 'linear-gradient(135deg, #FFC801, #FF9932)',
+                  color: '#172B36', fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600,
+                  padding: '4px 12px', borderRadius: '999px', textTransform: 'uppercase', letterSpacing: '0.05em'
+                }}>
+                  Most Popular
+                </div>
+              )}
+              
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', color: 'rgba(241,246,244,0.7)', margin: '0 0 16px 0', textTransform: 'capitalize' }}>
+                {plan.name}
+              </h3>
+              
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '32px' }}>
+                <span ref={plan.ref} style={{ fontFamily: 'var(--font-heading)', fontSize: '48px', fontWeight: 700, color: '#FFC801' }}>
+                  {PRICING_MATRIX.symbols[currency]}{calculatePrice(PRICING_MATRIX.base[plan.id], isAnnual, currency)}
+                </span>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(241,246,244,0.4)' }}>
+                  / month
+                </span>
+              </div>
 
-            <h3 style={{ fontFamily: 'var(--font-jetbrains)', fontSize: '1.25rem', fontWeight: 700, color: '#172B36', marginBottom: '0.5rem' }}>
-              {tier.name}
-            </h3>
-            <p style={{ fontSize: '0.875rem', color: 'rgba(17,76,90,0.7)', marginBottom: '1.5rem', lineHeight: 1.6, minHeight: '2.5rem' }}>
-              {tier.desc}
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '2rem' }}>
-              {/* ISOLATED TEXT NODE — zero React re-render */}
-              <PriceTextNode tierId={tierId} />
-              <span style={{ color: 'rgba(17,76,90,0.6)', marginLeft: '0.375rem', fontWeight: 500, fontSize: '0.9rem' }}>/mo</span>
-            </div>
-
-            <button
-              className="tier-btn"
-              style={{
-                marginTop: 'auto',
-                width: '100%',
-                padding: '0.75rem',
-                borderRadius: '0.625rem',
-                fontWeight: 600,
-                fontSize: '0.9rem',
-                border: '1.5px solid #172B36',
-                color: '#172B36',
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-                transition: 'background-color 0.18s ease-out, color 0.18s ease-out',
+              <a href="#" style={{
+                background: plan.isPopular ? 'linear-gradient(135deg, #FFC801, #FF9932)' : 'transparent',
+                border: plan.isPopular ? 'none' : '1px solid rgba(241,246,244,0.2)',
+                color: plan.isPopular ? '#172B36' : '#F1F6F4',
+                fontFamily: 'var(--font-heading)', fontSize: '15px', fontWeight: 500,
+                textAlign: 'center', padding: '12px', borderRadius: '8px', textDecoration: 'none',
+                marginBottom: '32px', transition: 'all 150ms ease-out', display: 'block'
               }}
-              onMouseEnter={e => { e.target.style.backgroundColor = '#172B36'; e.target.style.color = '#fff'; }}
-              onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#172B36'; }}
-            >
-              Get Started
-            </button>
-          </div>
-        ))}
-      </div>
+              onMouseEnter={e => {
+                if (plan.isPopular) { e.currentTarget.style.filter = 'brightness(1.1)'; }
+                else { e.currentTarget.style.borderColor = '#FFC801'; e.currentTarget.style.color = '#FFC801'; }
+              }}
+              onMouseLeave={e => {
+                if (plan.isPopular) { e.currentTarget.style.filter = 'none'; }
+                else { e.currentTarget.style.borderColor = 'rgba(241,246,244,0.2)'; e.currentTarget.style.color = '#F1F6F4'; }
+              }}
+              >
+                {plan.isPopular ? 'Get Started' : 'Start Free Trial'}
+              </a>
 
-      <style>{`
-        .pricing-card:hover { border-color: #FFC801; box-shadow: 0 8px 30px rgba(255,200,1,0.12); }
-        .pricing-card:hover .card-accent-line { background-color: #FFC801; }
-      `}</style>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}>
+                {plan.features.map((feature, idx) => (
+                  <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <span style={{ color: '#FFC801', fontSize: '14px', marginTop: '2px' }}>✓</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'rgba(241,246,244,0.7)', lineHeight: 1.4 }}>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+      </div>
     </section>
   );
 }
