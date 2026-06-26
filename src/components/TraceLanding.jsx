@@ -121,10 +121,19 @@ export default function TraceLanding() {
       <div className="relative h-screen w-full flex flex-col justify-between px-8 md:px-12 pt-24 pb-10 bg-cover bg-center" style={{ backgroundImage: "url('/images/bg.gif')" }}>
         <div className="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-b from-transparent via-[#171717]/20 to-zinc-950 pointer-events-none"></div>
         <div className="relative z-10 flex items-center flex-col h-full justify-center gap-6 text-center">
+          <span className="text-sm text-amber-500/80 mt-2 text-shadow-md font-medium tracking-wide uppercase bg-black/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 mb-4">Trace AI is now on Product Hunt · Available on Mac & Windows</span>
           <AnimatedText 
-            text="Your AI analytics platform for all your AI Tools." 
+            text="Your AI analytics platform for all your AI tools." 
             className="text-zinc-900 text-shadow-lg text-5xl md:text-6xl lg:text-8xl font-normal max-w-5xl font-serif tracking-tighter" 
           />
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="text-zinc-800 text-lg md:text-xl font-helvetica max-w-3xl mx-auto leading-relaxed mt-6 drop-shadow-md font-medium"
+          >
+            Trace AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration, nothing leaving your machine.
+          </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -144,7 +153,7 @@ export default function TraceLanding() {
                 <span>Download for Windows</span>
               </a>
             </div>
-            <span className="text-sm text-gray-800 mt-2 text-shadow-md">Trace is now on Product Hunt and is available on Mac and Windows. Linux support coming soon.</span>
+            <span className="text-sm text-gray-800 mt-2 text-shadow-md font-medium">Linux support coming soon · Free forever · MIT Open Source</span>
           </motion.div>
         </div>
       </div>
@@ -154,11 +163,13 @@ export default function TraceLanding() {
         <div className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20 overflow-hidden">
           <div className="py-10 md:py-40 w-full relative" style={{ perspective: '1000px' }}>
             <div className="max-w-5xl mx-auto text-center">
-              <span className="text-amber-50 text-xs uppercase tracking-widest font-helvetica">The dashboard</span>
+              <span className="text-amber-50 text-xs uppercase tracking-widest font-helvetica">The Dashboard</span>
               <AnimatedText 
                 text="Your whole AI stack, in a single glance." 
                 className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal mt-4 leading-tight" 
               />
+              <p className="text-white/60 text-lg mt-6">One dashboard for every AI tool you use.</p>
+              <p className="text-white/40 max-w-2xl mx-auto mt-2">Trace AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.</p>
             </div>
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
@@ -275,7 +286,7 @@ export default function TraceLanding() {
           <div className="text-center mb-16">
             <span className="text-amber-500 text-xs uppercase tracking-widest font-helvetica mb-4 block">What people say</span>
             <AnimatedText 
-              text="Teams that work with Trace, not around it" 
+              text="Teams that work with Trace AI, not around it" 
               className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal leading-tight mx-auto max-w-3xl mb-6" 
             />
             <motion.p 
@@ -285,7 +296,7 @@ export default function TraceLanding() {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-white/40 text-lg md:text-xl font-helvetica max-w-2xl mx-auto leading-relaxed"
             >
-              From solo developers to enterprise teams — here's what our users have to say after making Trace their daily partner.
+              From solo developers to enterprise teams — here's what our users have to say after making Trace AI their daily partner.
             </motion.p>
           </div>
 
@@ -300,43 +311,43 @@ export default function TraceLanding() {
             <div className="flex w-max animate-scroll gap-6">
               {[
                 {
-                  text: "Trace is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
+                  text: "Trace AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
                   name: "Paul M.",
                   title: "Operations Director, ZingZap"
                 },
                 {
-                  text: "Trace feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
+                  text: "Trace AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
                   name: "Emily C.",
                   title: "Head of Client Success, Junotwig"
                 },
                 {
-                  text: "Trace does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
+                  text: "Trace AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
                   name: "James R.",
                   title: "CEO, CloudPlex"
                 },
                 {
-                  text: "I was skeptical about yet another dev tool, but Trace legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
+                  text: "I was skeptical about yet another dev tool, but Trace AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
                   name: "Sophie L.",
                   title: "VP Engineering, StackFlow"
                 },
                 // Duplicated for seamless infinite scroll
                 {
-                  text: "Trace is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
+                  text: "Trace AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
                   name: "Paul M.",
                   title: "Operations Director, ZingZap"
                 },
                 {
-                  text: "Trace feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
+                  text: "Trace AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
                   name: "Emily C.",
                   title: "Head of Client Success, Junotwig"
                 },
                 {
-                  text: "Trace does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
+                  text: "Trace AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
                   name: "James R.",
                   title: "CEO, CloudPlex"
                 },
                 {
-                  text: "I was skeptical about yet another dev tool, but Trace legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
+                  text: "I was skeptical about yet another dev tool, but Trace AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
                   name: "Sophie L.",
                   title: "VP Engineering, StackFlow"
                 }
@@ -353,8 +364,8 @@ export default function TraceLanding() {
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent"></div>
                   </div>
 
-                  <div className="relative z-10 flex flex-col h-full">
-                    <p className="text-white/60 group-hover/card:text-white/90 transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8">
+                  <div className="relative z-10 flex flex-col h-full overflow-hidden">
+                    <p className="text-white/60 group-hover/card:text-white/90 transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
                       {testimonial.text}
                     </p>
                     
@@ -500,11 +511,11 @@ export default function TraceLanding() {
           </div>
           <div className="border-t border-white/10">
             {[
-              { q: "Do my API keys or AI data ever leave my device?", a: "No. Your API keys and AI tool logs never leave your machine — they're read and stored locally. The only thing Trace syncs to the cloud is your account data, so your dashboard stays consistent across platforms." },
-              { q: "Do I need Python or any runtime installed?", a: "No. The installed app bundles everything it needs, including the local server. Just download, open, and Trace starts watching your logs." },
-              { q: "Which AI tools does Trace support?", a: "Claude Code, Cursor, Codex, OpenCode, and Gemini CLI today, with Copilot CLI and Ollama on the way. All log paths are configurable via environment variables." },
+              { q: "Do my API keys or AI data ever leave my device?", a: "No. Your API keys and AI tool logs never leave your machine — they're read and stored locally. The only thing Trace AI syncs to the cloud is your account data, so your dashboard stays consistent across platforms." },
+              { q: "Do I need Python or any runtime installed?", a: "No. The installed app bundles everything it needs, including the local server. Just download, open, and Trace AI starts watching your logs." },
+              { q: "Which AI tools does Trace AI support?", a: "Claude Code, Cursor, Codex, OpenCode, and Gemini CLI today, with Copilot CLI and Ollama on the way. All log paths are configurable via environment variables." },
               { q: "How does it track usage and cost?", a: "A background watcher scans known CLI log directories every few seconds, parses them (JSON, JSONL, SQLite), and aggregates token counts and estimated costs into a unified dashboard." },
-              { q: "What does it cost?", a: "Trace is free and MIT-licensed. Download it for macOS (Apple Silicon) or Windows — Linux support is coming soon." }
+              { q: "What does it cost?", a: "Trace AI is free and MIT-licensed. Download it for macOS (Apple Silicon) or Windows — Linux support is coming soon." }
             ].map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} />
             ))}
@@ -536,14 +547,14 @@ export default function TraceLanding() {
 
         <div className="absolute bottom-32 left-1/2 -translate-x-1/2 pointer-events-none select-none w-full text-center">
           <AnimatedText 
-            text="Trace" 
-            className="text-white/5 text-[120px] sm:text-[250px] md:text-[500px] font-helvetica font-normal leading-[0.8] tracking-tighter" 
+            text="Trace AI" 
+            className="text-white/5 text-[100px] sm:text-[180px] md:text-[350px] font-helvetica font-normal leading-[0.8] tracking-tighter whitespace-nowrap" 
           />
         </div>
 
         <div className="relative w-full mx-auto grid grid-cols-2 md:flex md:justify-between md:items-center gap-6 pt-8 text-xs text-white/25 font-helvetica z-10">
           <div>
-            <p className="text-white/15 mb-1">© Trace 2026</p>
+            <p className="text-white/15 mb-1">© Trace AI 2026</p>
             <a href="https://www.linkedin.com/in/subham12r/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Made by Subham12r</a>
           </div>
           <div>
