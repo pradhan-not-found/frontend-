@@ -78,7 +78,7 @@ export default function Hero() {
             }}
           >
             {/* Dashboard Inner Container */}
-            <div className="w-full bg-background rounded-xl overflow-hidden flex flex-col font-body text-[11px] select-none pointer-events-none border border-border shadow-sm h-[600px]">
+            <div className="w-full bg-background rounded-xl flex flex-col font-body text-[11px] select-none pointer-events-none border border-border shadow-sm h-[600px]">
               
               {/* Top Bar */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background">
@@ -90,7 +90,7 @@ export default function Hero() {
                 
                 <div className="flex-1 max-w-md mx-8 flex items-center bg-secondary/50 rounded-md px-3 py-1.5 border border-border">
                   <Search className="w-3.5 h-3.5 text-muted-foreground mr-2" />
-                  <span className="text-muted-foreground flex-1">Search...</span>
+                  <span className="text-muted-foreground flex-1 text-left">Search...</span>
                   <span className="text-[10px] text-muted-foreground border border-border rounded px-1.5 py-0.5 bg-background">⌘K</span>
                 </div>
                 
@@ -126,8 +126,8 @@ export default function Hero() {
                   </div>
 
                   <div className="mt-6 px-3">
-                    <span className="px-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 block">Workflows</span>
-                    <div className="flex flex-col gap-1 text-muted-foreground">
+                    <span className="px-2 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 block text-left">Workflows</span>
+                    <div className="flex flex-col gap-1 text-muted-foreground text-left">
                       <div className="px-2 py-1.5">Trade routes</div>
                       <div className="px-2 py-1.5">Payments</div>
                       <div className="px-2 py-1.5">Notifications</div>
@@ -136,8 +136,8 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Main Content */}
-                <div className="flex-1 bg-secondary/30 p-6 flex flex-col gap-6 overflow-y-auto text-left">
+                {/* Main Content (No overflow-y-auto so it overflows correctly out of parent viewport) */}
+                <div className="flex-1 bg-secondary/30 p-6 flex flex-col gap-6 text-left">
                   <h2 className="text-sm font-semibold text-foreground">Welcome, Jane</h2>
                   
                   {/* Actions Row */}
@@ -191,15 +191,15 @@ export default function Hero() {
                         </div>
                       </div>
                       <div className="flex flex-col flex-1">
-                        <div className="flex justify-between items-center py-3">
+                        <div className="flex justify-between items-center py-3 text-xs">
                           <span className="text-foreground font-medium">Credit</span>
                           <span className="text-muted-foreground">$98,125.50</span>
                         </div>
-                        <div className="flex justify-between items-center py-3">
+                        <div className="flex justify-between items-center py-3 text-xs">
                           <span className="text-foreground font-medium">Treasury</span>
                           <span className="text-muted-foreground">$6,750,200.00</span>
                         </div>
-                        <div className="flex justify-between items-center py-3">
+                        <div className="flex justify-between items-center py-3 text-xs">
                           <span className="text-foreground font-medium">Operations</span>
                           <span className="text-muted-foreground">$1,592,864.82</span>
                         </div>
@@ -208,50 +208,45 @@ export default function Hero() {
 
                   </div>
 
-                  {/* Transactions Table */}
+                  {/* Transactions Table (Actual Table Component) */}
                   <div className="bg-background border border-border rounded-xl p-4 w-full">
                     <h3 className="font-semibold text-foreground mb-4">Recent Transactions</h3>
-                    <div className="w-full">
-                      <div className="flex items-center text-muted-foreground border-b border-border pb-2 mb-2">
-                        <div className="w-1/4">Date</div>
-                        <div className="w-2/4">Description</div>
-                        <div className="w-1/4 text-right">Amount</div>
-                        <div className="w-1/4 text-right">Status</div>
-                      </div>
-                      
-                      {/* Row 1 */}
-                      <div className="flex items-center py-2 text-foreground">
-                        <div className="w-1/4">Today</div>
-                        <div className="w-2/4 font-medium">AWS</div>
-                        <div className="w-1/4 text-right">-$5,200</div>
-                        <div className="w-1/4 text-right text-amber-500">Pending</div>
-                      </div>
-                      
-                      {/* Row 2 */}
-                      <div className="flex items-center py-2 text-foreground">
-                        <div className="w-1/4">Yesterday</div>
-                        <div className="w-2/4 font-medium">Client Payment</div>
-                        <div className="w-1/4 text-right text-green-500">+$125,000</div>
-                        <div className="w-1/4 text-right text-green-500">Completed</div>
-                      </div>
-
-                      {/* Row 3 */}
-                      <div className="flex items-center py-2 text-foreground">
-                        <div className="w-1/4">Mar 15</div>
-                        <div className="w-2/4 font-medium">Payroll</div>
-                        <div className="w-1/4 text-right">-$85,450</div>
-                        <div className="w-1/4 text-right text-green-500">Completed</div>
-                      </div>
-
-                      {/* Row 4 */}
-                      <div className="flex items-center py-2 text-foreground">
-                        <div className="w-1/4">Mar 14</div>
-                        <div className="w-2/4 font-medium">Office Supplies</div>
-                        <div className="w-1/4 text-right">-$1,200</div>
-                        <div className="w-1/4 text-right text-green-500">Completed</div>
-                      </div>
-
-                    </div>
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="text-muted-foreground border-b border-border">
+                          <th className="pb-2 font-normal">Date</th>
+                          <th className="pb-2 font-normal">Description</th>
+                          <th className="pb-2 font-normal text-right">Amount</th>
+                          <th className="pb-2 font-normal text-right">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-foreground">
+                        <tr>
+                          <td className="py-2">Today</td>
+                          <td className="py-2 font-medium">AWS</td>
+                          <td className="py-2 text-right">-$5,200</td>
+                          <td className="py-2 text-right text-amber-500">Pending</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">Yesterday</td>
+                          <td className="py-2 font-medium">Client Payment</td>
+                          <td className="py-2 text-right text-green-500">+$125,000</td>
+                          <td className="py-2 text-right text-green-500">Completed</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">Mar 15</td>
+                          <td className="py-2 font-medium">Payroll</td>
+                          <td className="py-2 text-right">-$85,450</td>
+                          <td className="py-2 text-right text-green-500">Completed</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2">Mar 14</td>
+                          <td className="py-2 font-medium">Office Supplies</td>
+                          <td className="py-2 text-right">-$1,200</td>
+                          <td className="py-2 text-right text-green-500">Completed</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
 
                 </div>

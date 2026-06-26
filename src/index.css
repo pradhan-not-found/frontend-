@@ -1,23 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 14% 17%;
+    --primary: 210 14% 17%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 184 5% 55%;
+    --accent: 239 84% 67%;
+    --accent-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --ring: 239 84% 67%;
+    --radius: 0.5rem;
+    --font-display: "Instrument Serif", serif;
+    --font-body: "Inter", sans-serif;
+    --shadow-dashboard: 0 25px 80px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+}
+
 @theme {
-  --color-background: hsl(0, 0%, 100%);
-  --color-foreground: hsl(210, 14%, 17%);
-  --color-primary: hsl(210, 14%, 17%);
-  --color-primary-foreground: hsl(0, 0%, 100%);
-  --color-secondary: hsl(0, 0%, 96%);
-  --color-secondary-foreground: hsl(0, 0%, 9%);
-  --color-muted: hsl(0, 0%, 96%);
-  --color-muted-foreground: hsl(184, 5%, 55%);
-  --color-accent: hsl(239, 84%, 67%);
-  --color-accent-foreground: hsl(0, 0%, 100%);
-  --color-border: hsl(0, 0%, 90%);
-  --color-ring: hsl(239, 84%, 67%);
-  --radius-radius: 0.5rem;
-  --font-display: "Instrument Serif", serif;
-  --font-body: "Inter", sans-serif;
-  --shadow-dashboard: 0 25px 80px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --color-ring: hsl(var(--ring));
+  --radius-radius: var(--radius);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
 *, *::before, *::after {
