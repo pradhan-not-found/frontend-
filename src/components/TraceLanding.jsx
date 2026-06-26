@@ -79,6 +79,10 @@ const AnimatedText = ({ text, className }) => {
 
 export default function TraceLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   return (
     <div className="dark h-full antialiased geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable font-sans inter_b2991b2-module__9mH_6q__variable playfair_display_b7700c01-module__LbZqPq__variable min-h-full bg-zinc-950 relative">
@@ -97,11 +101,11 @@ export default function TraceLanding() {
         <div className="flex items-center justify-between px-8 py-2 relative transition-all duration-300" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 100%)', backdropFilter: 'blur(2px)' }}>
           <a className="nav-logo flex flex-row items-end justify-center cursor-pointer select-none" href="/">
             <img alt="Trackify Logo" width="32" height="32" className="mr-2 rounded-md text-shadow-md" src="/images/logo.png" />
-            <span className="font-sans font-medium tracking-tighter text-xl text-zinc-100 text-shadow-lg flex items-center">Trackify<sup className="text-amber-500 font-bold ml-0.5 lowercase text-[10px]">ai</sup></span>
+            <span className="font-sans font-medium tracking-tighter text-xl text-white text-shadow-lg flex items-center">Trackify<sup className="text-white font-bold ml-0.5 lowercase text-[10px]">ai</sup></span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm text-zinc-100 text-shadow-lg">
             <a href="#features" className="micro-link hover:text-amber-600 transition-colors">Features</a>
-            <a className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer" href="/login">Sign In</a>
+            <button onClick={() => setLoginOpen(true)} className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer bg-transparent border-none">Sign In</button>
             <a href="https://github.com/Subham12R/Trace/releases" className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer">Download</a>
           </nav>
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-zinc-100 hover:text-white transition-colors cursor-pointer z-50" aria-label="Toggle menu">
@@ -111,7 +115,7 @@ export default function TraceLanding() {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 w-full border-b border-white/10 flex flex-col items-center gap-6 py-8 md:hidden" style={{ background: 'rgba(9, 9, 11, 0.6)', backdropFilter: 'blur(16px)' }}>
             <a href="#features" className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1">Features</a>
-            <a className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1 cursor-pointer text-center" href="/login">Sign In</a>
+            <button onClick={() => { setLoginOpen(true); setMobileMenuOpen(false); }} className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1 cursor-pointer text-center bg-transparent border-none">Sign In</button>
             <a href="https://github.com/Subham12R/Trace/releases" className="mobile-nav-item text-lg text-amber-500 hover:text-amber-400 font-medium transition-colors py-1">Download</a>
           </div>
         )}
@@ -133,17 +137,17 @@ export default function TraceLanding() {
             className="flex flex-col items-center gap-4 mt-12 w-full px-4 mx-auto justify-center"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-xs sm:max-w-none">
-              <a className="micro transition-all ease-in-out shadow-2xl hover:scale-105 duration-300" href="https://www.producthunt.com/products/trace-28?embed=true" target="_blank" rel="noopener noreferrer">
+              <button onClick={(e) => e.preventDefault()} className="micro transition-all ease-in-out shadow-2xl hover:scale-105 duration-300 bg-transparent border-none p-0 cursor-default">
                 <img alt="Trackify on Product Hunt" width="200" height="44" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1177399&amp;theme=dark&amp;t=1782372206153" />
-              </a>
-              <a href="https://github.com/Subham12R/Trace/releases/download/v0.3.1/Trace-0.3.1-mac.dmg" className="micro flex items-center justify-center gap-2 text-white text-md px-5 bg-zinc-950 py-2.5 rounded-md shadow-md hover:bg-zinc-800 cursor-pointer w-full sm:w-auto whitespace-nowrap transition-colors">
+              </button>
+              <button onClick={(e) => e.preventDefault()} className="micro flex items-center justify-center gap-2 text-white text-md px-5 bg-zinc-950 py-2.5 rounded-md shadow-md hover:bg-zinc-800 cursor-default w-full sm:w-auto whitespace-nowrap transition-colors border-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" color="currentColor"><path d="M12 5.75C12 3.75 13.5 1.75 15.5 1.75C15.5 3.75 14 5.75 12 5.75Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5"></path><path d="M12.5 8.09001C11.9851 8.09001 11.5867 7.92646 11.1414 7.74368C10.5776 7.51225 9.93875 7.25 8.89334 7.25C7.02235 7.25 4 8.74945 4 12.7495C4 17.4016 7.10471 22.25 9.10471 22.25C9.77426 22.25 10.3775 21.9871 10.954 21.7359C11.4815 21.5059 11.9868 21.2857 12.5 21.2857C13.0132 21.2857 13.5185 21.5059 14.046 21.7359C14.6225 21.9871 15.2257 22.25 15.8953 22.25C17.2879 22.25 18.9573 19.8992 20 16.9008C18.3793 16.2202 17.338 14.618 17.338 12.75C17.338 11.121 18.2036 10.0398 19.5 9.25C18.5 7.75 17.0134 7.25 15.9447 7.25C14.8993 7.25 14.2604 7.51225 13.6966 7.74368C13.2514 7.92646 13.0149 8.09001 12.5 8.09001Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5"></path></svg>
                 <span>Download for Mac</span>
-              </a>
-              <a href="https://github.com/Subham12R/Trace/releases/download/v0.3.0/Trace-Setup.exe" className="micro flex items-center justify-center gap-2 text-zinc-900 text-md px-5 bg-white py-2.5 rounded-md shadow-md hover:bg-gray-200 cursor-pointer w-full sm:w-auto whitespace-nowrap transition-colors">
+              </button>
+              <button onClick={(e) => e.preventDefault()} className="micro flex items-center justify-center gap-2 text-zinc-900 text-md px-5 bg-white py-2.5 rounded-md shadow-md hover:bg-gray-200 cursor-default w-full sm:w-auto whitespace-nowrap transition-colors border-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" color="currentColor"><path d="M14.0136 3.99538L8.01361 4.99036C5.61912 5.38744 4.42188 5.58597 3.71094 6.421C3 7.25602 3 8.46368 3 10.879L3 13.121C3 15.5363 3 16.744 3.71094 17.579C4.42188 18.414 5.61913 18.6126 8.01361 19.0096L14.0136 20.0046C17.2567 20.5424 18.8782 20.8113 19.9391 19.9171C21 19.023 21 17.3873 21 14.116V9.88402C21 6.6127 21 4.97704 19.9391 4.08286C18.8782 3.18868 17.2567 3.45758 14.0136 3.99538Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></path><path d="M11 4.5V19.5M3 12H21" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></path></svg>
                 <span>Download for Windows</span>
-              </a>
+              </button>
             </div>
           </motion.div>
         </div>
@@ -286,10 +290,10 @@ export default function TraceLanding() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="relative flex overflow-hidden w-full py-8 mt-8"
-            style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+            className="relative flex overflow-hidden w-full mt-10"
+            style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
           >
-            <div className="flex w-max animate-scroll gap-6">
+            <div className="flex w-max animate-scroll hover:[animation-play-state:paused]" style={{ gap: '16px' }}>
               {[
                 {
                   text: "Trackify AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
@@ -335,34 +339,39 @@ export default function TraceLanding() {
               ].map((testimonial, i) => (
                 <div 
                   key={i} 
-                  className="w-80 md:w-96 shrink-0 group/card relative overflow-hidden rounded-2xl bg-white p-8 flex flex-col justify-between min-h-72 transition-all duration-500 cursor-default"
+                  className="group shrink-0 relative overflow-hidden rounded-xl bg-zinc-900 border border-white/5 p-6 flex flex-col justify-between cursor-default"
+                  style={{ width: '280px', height: '280px' }}
                 >
-                  {/* Hover Glassy Background (Orange gradient) */}
-                  <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 z-0">
-                    <div className="absolute inset-0 bg-cover bg-center opacity-80" style={{ backgroundImage: "url('/images/bg.gif')" }}></div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                  {/* GIF background with dark overlay — fades in on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
+                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/bg.gif')" }}></div>
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.4) 100%)' }}></div>
                   </div>
 
-                  <div className="relative z-10 flex flex-col h-full overflow-hidden">
-                    <p className="text-black transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
+                  <div className="relative z-10 flex flex-col h-full">
+                    <p className="text-white/60 group-hover:text-white transition-colors duration-300 text-sm font-helvetica leading-relaxed flex-1 line-clamp-5">
                       {testimonial.text}
                     </p>
                     
-                    <div className="mt-auto flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-zinc-200 flex items-center justify-center shrink-0 border border-zinc-300 overflow-hidden">
-                          <img src={`https://i.pravatar.cc/150?u=${testimonial.name}`} alt={testimonial.name} className="w-full h-full object-cover" />
+                    <div className="flex items-end justify-between mt-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-md bg-zinc-800 group-hover:bg-white/10 overflow-hidden shrink-0 border border-white/10 transition-colors duration-300">
+                          <img 
+                            src={`https://i.pravatar.cc/150?u=${testimonial.name}`} 
+                            alt={testimonial.name} 
+                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" 
+                          />
                         </div>
                         <div>
-                          <p className="text-zinc-900 font-medium font-helvetica text-sm">{testimonial.name}</p>
-                          <p className="text-zinc-500 text-xs font-helvetica group-hover/card:text-zinc-800 transition-colors">{testimonial.title}</p>
+                          <p className="text-white/80 group-hover:text-white font-semibold font-helvetica text-xs transition-colors duration-300">{testimonial.name}</p>
+                          <p className="text-white/35 group-hover:text-white/70 text-[10px] font-helvetica transition-colors duration-300">{testimonial.title}</p>
                         </div>
                       </div>
-                      
-                      <div className="opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
-                        <a href="#" className="flex items-center gap-1.5 bg-zinc-900 text-white text-[10px] font-medium px-2.5 py-1.5 rounded-md hover:bg-black transition-colors">
-                          Read on 
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <a href="https://github.com/pradhan-not-found" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-1 rounded-md hover:bg-black/80 transition-colors whitespace-nowrap">
+                          GitHub
+                          <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                         </a>
                       </div>
                     </div>
@@ -512,50 +521,209 @@ export default function TraceLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="relative min-h-[75vh] flex flex-col justify-between px-8 md:px-16 pt-32 pb-10 overflow-hidden bg-zinc-950">
-        <div className="pointer-events-none absolute inset-0 origin-bottom" style={{ background: 'radial-gradient(ellipse 120% 90% at 50% 125%, #a14409 0%, #3d1908 42%, transparent 72%)' }}></div>
-        <div className="relative flex justify-center gap-16 md:gap-32 w-full mx-auto z-10">
-          <div className="mt-2">
-            <ul className="space-y-4">
-              <li className="flex items-center gap-2"><a href="https://github.com/Subham12R/Trace/releases" target="_blank" rel="noopener noreferrer" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Download</a></li>
-              <li className="flex items-center gap-2"><a href="/changelog" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Changelog</a><span className="text-[10px] font-helvetica border border-white/20 text-white/40 px-1.5 py-0.5 rounded-full tracking-wider">NEW</span></li>
-              <li className="flex items-center gap-2"><a href="https://github.com/Subham12R/Trace" target="_blank" rel="noopener noreferrer" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Github</a></li>
-            </ul>
-          </div>
-          <div className="mt-2">
-            <ul className="space-y-4">
-              <li><a href="https://github.com/Subham12R/Trace/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">License</a></li>
-              <li><a href="/privacy" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Privacy</a></li>
-              <li><a href="/terms" className="micro-link text-white/50 hover:text-white text-base font-helvetica transition-colors">Terms</a></li>
-            </ul>
-          </div>
-        </div>
+      <footer className="relative flex flex-col justify-between px-8 md:px-16 overflow-hidden bg-zinc-950" style={{ minHeight: '70vh', paddingTop: '80px', paddingBottom: '40px' }}>
+        {/* Orange radial glow at bottom */}
+        <div className="pointer-events-none absolute inset-0 origin-bottom z-0" style={{ background: 'radial-gradient(ellipse 120% 80% at 50% 130%, #a14409 0%, #3d1908 40%, transparent 68%)' }}></div>
 
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-          <span className="text-white/10 text-[100px] sm:text-[150px] md:text-[220px] lg:text-[280px] font-helvetica font-bold leading-none tracking-tighter whitespace-nowrap">
-            Trackify.ai
+        {/* Giant watermark — anchored to bottom, behind everything */}
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none select-none z-0 overflow-hidden leading-none">
+          <span className="font-serif font-normal leading-none tracking-tighter whitespace-nowrap" style={{ fontSize: 'clamp(80px, 15vw, 240px)', color: 'rgba(255,255,255,0.07)', letterSpacing: '-0.04em', width: '100%', textAlign: 'center', display: 'block' }}>
+            Trackify<sup className="text-amber-500/30" style={{ fontSize: '0.18em', verticalAlign: 'super', fontWeight: '400' }}>ai</sup>
           </span>
         </div>
 
-        <div className="relative w-full mx-auto grid grid-cols-2 md:flex md:justify-between md:items-center gap-6 pt-32 text-xs text-white/25 font-helvetica z-10">
-          <div>
-            <p className="text-white/15 mb-1">© Trackify AI 2026</p>
-            <a href="https://souradeep.me" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Made by souradeep.me</a>
+        {/* Nav links: Download/Changelog/Github LEFT, License/Privacy/Terms RIGHT */}
+        <div className="relative z-10 flex flex-col md:flex-row items-start justify-between">
+          {/* Left column */}
+          <ul className="space-y-4">
+            <li className="flex items-center gap-2">
+              <a href="https://github.com/Subham12R/Trace/releases" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">Download</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <a href="/changelog" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">Changelog</a>
+              <span className="text-[9px] font-helvetica border border-white/25 text-white/40 px-1.5 py-0.5 rounded-full tracking-wider leading-none">NEW</span>
+            </li>
+            <li>
+              <a href="https://github.com/Subham12R/Trace" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">Github</a>
+            </li>
+          </ul>
+
+          {/* Right column */}
+          <ul className="space-y-4 mt-10 md:mt-0">
+            <li>
+              <a href="https://github.com/Subham12R/Trace/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">License</a>
+            </li>
+            <li>
+              <a href="/privacy" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">Privacy</a>
+            </li>
+            <li>
+              <a href="/terms" className="text-white/50 hover:text-white text-sm font-helvetica transition-colors">Terms</a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="relative z-10 flex flex-col md:flex-row md:justify-between md:items-end gap-6 text-xs font-helvetica mt-auto pt-16">
+          <div className="flex flex-col gap-1">
+            <p className="text-white/30">© Trackify AI 2026</p>
+            <a href="https://souradeep.me" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white transition-colors">Made by souradeep.me</a>
           </div>
-          <div>
-            <p className="text-white/15 mb-1">Github</p>
-            <a href="https://github.com/pradhan-not-found" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">@pradhan-not-found</a>
+          <div className="flex flex-col gap-1">
+            <p className="text-white/30">GitHub</p>
+            <a href="https://github.com/pradhan-not-found" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white transition-colors">@pradhan-not-found</a>
           </div>
-          <div>
-            <p className="text-white/15 mb-1">License</p>
-            <p>MIT Open Source</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-white/30">License</p>
+            <p className="text-white/30">MIT Open Source</p>
           </div>
-          <div>
-            <p className="text-white/15 mb-1">Available On</p>
-            <p>MacOS & Windows</p>
+          <div className="flex flex-col gap-1">
+            <p className="text-white/30">Available On</p>
+            <p className="text-white/30">MacOS & Windows</p>
           </div>
         </div>
       </footer>
+
+      {/* Login Modal Overlay */}
+      <AnimatePresence>
+        {loginOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex bg-zinc-950 font-sans antialiased overflow-y-auto"
+          >
+            {/* Left Panel */}
+            <div className="w-full lg:w-1/2 flex flex-col px-10 md:px-16 py-8 relative min-h-screen">
+              {/* Top logo */}
+              <div className="flex items-center gap-2 mb-auto z-10">
+                <button onClick={() => setLoginOpen(false)} className="flex items-center gap-2 select-none bg-transparent border-none cursor-pointer">
+                  <img src="/images/logo.png" alt="Trackify" width="28" height="28" className="rounded-md" />
+                  <span className="text-white font-medium text-lg tracking-tight flex items-center">
+                    Trackify<sup className="text-white font-bold text-[9px] ml-0.5 lowercase">ai</sup>
+                  </span>
+                </button>
+              </div>
+
+              {/* Form area */}
+              <div className="flex flex-col justify-center flex-1 max-w-sm w-full mx-auto py-12 z-10">
+                {/* Go back */}
+                <button onClick={() => setLoginOpen(false)} className="text-white/40 hover:text-white text-sm font-helvetica mb-8 inline-flex items-center gap-1.5 transition-colors w-fit bg-transparent border-none cursor-pointer p-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                  </svg>
+                  Go back
+                </button>
+
+                {/* Heading */}
+                <h1 className="text-white text-3xl md:text-4xl font-sans font-semibold mb-8 leading-tight tracking-tight">
+                  Welcome back to{' '}
+                  <em className="font-serif font-normal not-italic" style={{ fontStyle: 'italic' }}>Trackify.</em>
+                </h1>
+
+                {/* OAuth buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors cursor-pointer">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google
+                  </button>
+                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                  </button>
+                </div>
+
+                {/* OR divider */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex-1 h-px bg-white/10"></div>
+                  <span className="text-white/30 text-xs font-helvetica tracking-widest uppercase">or</span>
+                  <div className="flex-1 h-px bg-white/10"></div>
+                </div>
+
+                {/* Email field */}
+                <div className="mb-4">
+                  <label className="block text-white/50 text-xs font-helvetica tracking-widest uppercase mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={loginEmail}
+                    onChange={e => setLoginEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="w-full bg-zinc-900 border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm font-helvetica placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors"
+                  />
+                </div>
+
+                {/* Password field */}
+                <div className="mb-6">
+                  <label className="block text-white/50 text-xs font-helvetica tracking-widest uppercase mb-2">Password</label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={loginPassword}
+                      onChange={e => setLoginPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className="w-full bg-zinc-900 border border-white/10 rounded-lg px-4 py-2.5 pr-10 text-white text-sm font-helvetica placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors cursor-pointer bg-transparent border-none p-0"
+                    >
+                      {showPassword ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sign in button */}
+                <button className="w-full bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-sm py-2.5 rounded-lg transition-colors cursor-pointer mb-5 border-none">
+                  Sign in
+                </button>
+
+                {/* Sign up link */}
+                <p className="text-center text-white/40 text-sm font-helvetica">
+                  Don't have an account?{' '}
+                  <button className="text-amber-500 hover:text-amber-400 font-medium transition-colors bg-transparent border-none cursor-pointer p-0 inline">Sign up</button>
+                </p>
+              </div>
+
+              {/* Bottom links */}
+              <div className="flex items-center justify-between mt-auto pt-4 z-10">
+                <a href="#" className="text-white/25 hover:text-white/50 text-xs font-helvetica transition-colors">Terms of Service</a>
+                <a href="#" className="text-white/25 hover:text-white/50 text-xs font-helvetica transition-colors">Privacy Policy</a>
+              </div>
+            </div>
+
+            {/* Right Panel — GIF */}
+            <div className="hidden lg:flex w-1/2 p-6 sticky top-0 h-screen">
+              <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+                {/* GIF background */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: "url('/images/bg.gif')" }}
+                />
+                {/* Bottom overlay text */}
+                <div className="absolute inset-0 flex flex-col justify-end p-12" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 40%, transparent 100%)' }}>
+                  <h2 className="text-white text-4xl md:text-5xl font-sans font-semibold mb-4 leading-tight tracking-tight">
+                    AI Analytics, <br/><em className="font-serif font-normal" style={{ fontStyle: 'italic' }}>simplified.</em>
+                  </h2>
+                  <p className="text-white/70 text-lg font-helvetica leading-relaxed max-w-md">
+                    Trackify AI is your all-in-one AI analytics platform, designed to monitor and control your AI tools with ease. Gain insights, optimize performance, and ensure responsible AI usage.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
