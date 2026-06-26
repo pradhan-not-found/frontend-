@@ -12,35 +12,37 @@ export default function Hero() {
       </div>
 
       {/* Hero Content Alignment */}
-      <div className="hero-content-wrapper" style={{ maxWidth: '80rem', width: '100%', margin: '0 auto', position: 'relative', zIndex: 10, padding: '2rem 1.5rem', marginBottom: '15vh' }}>
+      <div className="hero-content-wrapper" style={{ maxWidth: '80rem', width: '100%', margin: '0 auto', position: 'relative', zIndex: 10, padding: '4rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '10vh' }}>
         
-        <div className="hero-text-container">
-          {/* Native CSS Slide Up Fade applied via 'hero-animate' class */}
-          <h1 className="hero-animate" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontFamily: 'var(--font-inter)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', margin: 0 }}>
-            <span style={{ color: '#172B36' }}>NexAI offers</span><br />
-            <span style={{ color: 'rgba(17,76,90,0.6)' }}>information</span><br />
-            <span style={{ color: 'rgba(17,76,90,0.6)' }}>and resources to scale</span><br />
-            <span style={{ color: 'rgba(17,76,90,0.6)' }}>your </span>
-            
+        {/* Native CSS Slide Up Fade applied via 'hero-animate' class */}
+        <h1 className="hero-animate" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', fontFamily: 'var(--font-inter)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0, textShadow: '0 4px 12px rgba(241, 246, 244, 0.4)' }}>
+          <span style={{ color: '#172B36' }}>NexAI offers</span><br />
+          <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>information</span><br />
+          <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>and resources to scale</span><br />
+          
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.25rem' }}>
+            <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>your</span>
             {/* The Eye/Pill Inline Visual Element */}
-            <span style={{ width: 'clamp(3.5rem, 6vw, 4.5rem)', height: 'clamp(1.8rem, 3.5vw, 2.5rem)', border: '2px solid #172B36', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', verticalAlign: 'middle', margin: '0 0.5rem', backgroundColor: 'transparent' }}>
+            <span style={{ width: 'clamp(3rem, 5vw, 4.5rem)', height: 'clamp(1.6rem, 3vw, 2.25rem)', border: '2.5px solid #172B36', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(241, 246, 244, 0.3)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}>
               <span style={{ width: '0.6rem', height: '0.6rem', backgroundColor: '#172B36', borderRadius: '50%' }}></span>
             </span>
-            
-            <span style={{ color: 'rgba(17,76,90,0.6)' }}>AI infrastructure.</span>
-          </h1>
-
-          {/* Search Pill Component */}
-          <div className="hero-animate" style={{ animationDelay: '150ms', marginTop: '2.5rem', backgroundColor: '#fff', borderRadius: '0.5rem', border: '1px solid rgba(23,43,54,0.1)', padding: '0.35rem 0.35rem 0.35rem 1.25rem', display: 'inline-flex', alignItems: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', maxWidth: '100%' }}>
-            <input 
-              type="text" 
-              placeholder="Ask me anything..." 
-              style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', color: '#172B36', fontSize: '1rem', width: '220px', maxWidth: '60vw' }} 
-            />
-            <button className="search-btn" style={{ backgroundColor: '#172B36', color: '#fff', width: '2.5rem', height: '2.5rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', flexShrink: 0, transition: 'background-color 0.2s' }}>
-              <img src="/SVGs/chevron-right.svg" alt="" style={{ width: '1.25rem', height: '1.25rem', filter: 'invert(1)' }} />
-            </button>
+            <span style={{ color: 'rgba(23, 43, 54, 0.75)' }}>AI infrastructure.</span>
           </div>
+        </h1>
+
+        {/* Search Pill Component */}
+        <div className="hero-animate" style={{ animationDelay: '150ms', marginTop: '3.5rem', backgroundColor: '#fff', borderRadius: '9999px', border: '1px solid rgba(23,43,54,0.1)', padding: '0.4rem 0.4rem 0.4rem 1.5rem', display: 'inline-flex', alignItems: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.06)', maxWidth: '100%' }}>
+          <input 
+            type="text" 
+            placeholder="Ask me anything..." 
+            style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', color: '#172B36', fontSize: '1.05rem', width: '260px', maxWidth: '60vw', fontFamily: 'var(--font-inter)' }} 
+          />
+          <button className="search-btn" style={{ backgroundColor: '#172B36', color: '#fff', width: '2.75rem', height: '2.75rem', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', flexShrink: 0, transition: 'background-color 0.2s, transform 0.2s', boxShadow: '0 4px 10px rgba(23,43,54,0.2)' }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <img src="/SVGs/chevron-right.svg" alt="" style={{ width: '1.25rem', height: '1.25rem', filter: 'invert(1)' }} />
+          </button>
         </div>
 
       </div>
