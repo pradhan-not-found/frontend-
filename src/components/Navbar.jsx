@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from './ui/button';
 
 export default function Navbar() {
   return (
@@ -12,9 +13,7 @@ export default function Navbar() {
         <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
         <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
         <a href="#contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-        <button className="rounded-full px-5 py-2.5 text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-          Get Started
-        </button>
+        <Button className="rounded-full px-5">Get Started</Button>
       </div>
     </nav>
   );

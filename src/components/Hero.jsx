@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, ChevronDown, Search, Bell, Home, CheckSquare, ArrowRightLeft, CreditCard, PieChart, Users, Settings, Plus, MoreVertical } from 'lucide-react';
+import { Button } from './ui/button';
 
 export default function Hero() {
   return (
@@ -53,12 +54,12 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-5 flex items-center gap-3"
         >
-          <button className="rounded-full px-6 py-4 text-sm font-medium font-body bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+          <Button className="rounded-full px-6 py-5 text-sm font-medium font-body">
             Book a demo
-          </button>
-          <button className="flex items-center justify-center h-11 w-11 rounded-full border-0 bg-background shadow-[0_2px_12px_rgba(0,0,0,0.08)] hover:bg-background/80 transition-colors">
+          </Button>
+          <Button variant="ghost" className="h-11 w-11 rounded-full border-0 bg-background shadow-[0_2px_12px_rgba(0,0,0,0.08)] hover:bg-background/80 p-0 flex items-center justify-center">
             <Play className="h-4 w-4 fill-foreground" />
-          </button>
+          </Button>
         </motion.div>
 
         {/* 5. Dashboard Preview */}
