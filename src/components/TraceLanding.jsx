@@ -96,8 +96,8 @@ export default function TraceLanding() {
       <div className="w-full fixed top-0 z-50 text-white">
         <div className="flex items-center justify-between px-8 py-2 relative transition-all duration-300" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 100%)', backdropFilter: 'blur(2px)' }}>
           <a className="nav-logo flex flex-row items-end justify-center cursor-pointer select-none" href="/">
-            <img alt="Trace Logo" width="32" height="32" className="mr-2 rounded-md text-shadow-md" src="/images/logo.png" />
-            <span className="font-medium tracking-tighter text-xl text-zinc-100 text-shadow-lg">Trace</span>
+            <img alt="Trackify Logo" width="32" height="32" className="mr-2 rounded-md text-shadow-md" src="/images/logo.png" />
+            <span className="font-sans font-medium tracking-tighter text-xl text-zinc-100 text-shadow-lg flex items-center">Trackify<sup className="text-amber-500 font-bold ml-0.5 lowercase text-[10px]">ai</sup></span>
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm text-zinc-100 text-shadow-lg">
             <a href="#features" className="micro-link hover:text-amber-600 transition-colors">Features</a>
@@ -121,28 +121,20 @@ export default function TraceLanding() {
       <div className="relative h-screen w-full flex flex-col justify-between px-8 md:px-12 pt-24 pb-10 bg-cover bg-center" style={{ backgroundImage: "url('/images/bg.gif')" }}>
         <div className="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-b from-transparent via-[#171717]/20 to-zinc-950 pointer-events-none"></div>
         <div className="relative z-10 flex items-center flex-col h-full justify-center gap-6 text-center">
-          <span className="text-sm text-amber-500/80 mt-2 text-shadow-md font-medium tracking-wide uppercase bg-black/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 mb-4">Trace AI is now on Product Hunt · Available on Mac & Windows</span>
           <AnimatedText 
             text="Your AI analytics platform for all your AI tools." 
             className="text-zinc-900 text-shadow-lg text-5xl md:text-6xl lg:text-8xl font-normal max-w-5xl font-serif tracking-tighter" 
           />
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="text-zinc-800 text-lg md:text-xl font-helvetica max-w-3xl mx-auto leading-relaxed mt-6 drop-shadow-md font-medium"
-          >
-            Trace AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration, nothing leaving your machine.
-          </motion.p>
+
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="flex flex-col items-center gap-4 mt-6 w-full px-4 mx-auto justify-center"
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="flex flex-col items-center gap-4 mt-12 w-full px-4 mx-auto justify-center"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-xs sm:max-w-none">
               <a className="micro transition-all ease-in-out shadow-2xl hover:scale-105 duration-300" href="https://www.producthunt.com/products/trace-28?embed=true" target="_blank" rel="noopener noreferrer">
-                <img alt="Trace on Product Hunt" width="200" height="44" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1177399&amp;theme=dark&amp;t=1782372206153" />
+                <img alt="Trackify on Product Hunt" width="200" height="44" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1177399&amp;theme=dark&amp;t=1782372206153" />
               </a>
               <a href="https://github.com/Subham12R/Trace/releases/download/v0.3.1/Trace-0.3.1-mac.dmg" className="micro flex items-center justify-center gap-2 text-white text-md px-5 bg-zinc-950 py-2.5 rounded-md shadow-md hover:bg-zinc-800 cursor-pointer w-full sm:w-auto whitespace-nowrap transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" color="currentColor"><path d="M12 5.75C12 3.75 13.5 1.75 15.5 1.75C15.5 3.75 14 5.75 12 5.75Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5"></path><path d="M12.5 8.09001C11.9851 8.09001 11.5867 7.92646 11.1414 7.74368C10.5776 7.51225 9.93875 7.25 8.89334 7.25C7.02235 7.25 4 8.74945 4 12.7495C4 17.4016 7.10471 22.25 9.10471 22.25C9.77426 22.25 10.3775 21.9871 10.954 21.7359C11.4815 21.5059 11.9868 21.2857 12.5 21.2857C13.0132 21.2857 13.5185 21.5059 14.046 21.7359C14.6225 21.9871 15.2257 22.25 15.8953 22.25C17.2879 22.25 18.9573 19.8992 20 16.9008C18.3793 16.2202 17.338 14.618 17.338 12.75C17.338 11.121 18.2036 10.0398 19.5 9.25C18.5 7.75 17.0134 7.25 15.9447 7.25C14.8993 7.25 14.2604 7.51225 13.6966 7.74368C13.2514 7.92646 13.0149 8.09001 12.5 8.09001Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5"></path></svg>
@@ -153,7 +145,6 @@ export default function TraceLanding() {
                 <span>Download for Windows</span>
               </a>
             </div>
-            <span className="text-sm text-gray-800 mt-2 text-shadow-md font-medium">Linux support coming soon · Free forever · MIT Open Source</span>
           </motion.div>
         </div>
       </div>
@@ -169,7 +160,7 @@ export default function TraceLanding() {
                 className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal mt-4 leading-tight" 
               />
               <p className="text-white/60 text-lg mt-6">One dashboard for every AI tool you use.</p>
-              <p className="text-white/40 max-w-2xl mx-auto mt-2">Trace AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.</p>
+              <p className="text-white/40 max-w-2xl mx-auto mt-2">Trackify AI reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.</p>
             </div>
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
@@ -204,7 +195,7 @@ export default function TraceLanding() {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-amber-50 text-2xl max-w-4xl font-helvetica leading-relaxed"
             >
-              Trace reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.
+              Trackify reads local logs in real time and gives you unified visibility across token usage, cost, and sessions — no cloud, no configuration.
             </motion.p>
           </div>
           
@@ -286,7 +277,7 @@ export default function TraceLanding() {
           <div className="text-center mb-16">
             <span className="text-amber-500 text-xs uppercase tracking-widest font-helvetica mb-4 block">What people say</span>
             <AnimatedText 
-              text="Teams that work with Trace AI, not around it" 
+              text="Teams that work with Trackify AI, not around it" 
               className="font-serif text-4xl md:text-6xl tracking-tighter text-amber-50 font-normal leading-tight mx-auto max-w-3xl mb-6" 
             />
             <motion.p 
@@ -296,7 +287,7 @@ export default function TraceLanding() {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-white/40 text-lg md:text-xl font-helvetica max-w-2xl mx-auto leading-relaxed"
             >
-              From solo developers to enterprise teams — here's what our users have to say after making Trace AI their daily partner.
+              From solo developers to enterprise teams — here's what our users have to say after making Trackify AI their daily partner.
             </motion.p>
           </div>
 
@@ -311,71 +302,78 @@ export default function TraceLanding() {
             <div className="flex w-max animate-scroll gap-6">
               {[
                 {
-                  text: "Trace AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
+                  text: "Trackify AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
                   name: "Paul M.",
                   title: "Operations Director, ZingZap"
                 },
                 {
-                  text: "Trace AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
+                  text: "Trackify AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
                   name: "Emily C.",
                   title: "Head of Client Success, Junotwig"
                 },
                 {
-                  text: "Trace AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
+                  text: "Trackify AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
                   name: "James R.",
                   title: "CEO, CloudPlex"
                 },
                 {
-                  text: "I was skeptical about yet another dev tool, but Trace AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
+                  text: "I was skeptical about yet another dev tool, but Trackify AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
                   name: "Sophie L.",
                   title: "VP Engineering, StackFlow"
                 },
                 // Duplicated for seamless infinite scroll
                 {
-                  text: "Trace AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
+                  text: "Trackify AI is the first AI tool that actually reduces my workload. I stay on top of logs, token costs, and sessions without the usual chaos.",
                   name: "Paul M.",
                   title: "Operations Director, ZingZap"
                 },
                 {
-                  text: "Trace AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
+                  text: "Trackify AI feels like the assistant I always needed. It keeps conversations organized, handles log parsing, and saves me hours every week.",
                   name: "Emily C.",
                   title: "Head of Client Success, Junotwig"
                 },
                 {
-                  text: "Trace AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
+                  text: "Trackify AI does what every other AI tool promised but never delivered — it actually takes things off my plate. My CLI clutter went from chaos to zero, daily.",
                   name: "James R.",
                   title: "CEO, CloudPlex"
                 },
                 {
-                  text: "I was skeptical about yet another dev tool, but Trace AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
+                  text: "I was skeptical about yet another dev tool, but Trackify AI legitimately gave me back 10 hours a week and forced me to reconsider how much API cost I had.",
                   name: "Sophie L.",
                   title: "VP Engineering, StackFlow"
                 }
               ].map((testimonial, i) => (
                 <div 
                   key={i} 
-                  className="w-80 md:w-96 shrink-0 group/card relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-8 flex flex-col justify-between min-h-72 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:border-white/20 cursor-default"
+                  className="w-80 md:w-96 shrink-0 group/card relative overflow-hidden rounded-2xl bg-white p-8 flex flex-col justify-between min-h-72 transition-all duration-500 cursor-default"
                 >
-                  {/* Hover Glassy Background */}
+                  {/* Hover Glassy Background (Orange gradient) */}
                   <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 z-0">
-                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/bg.gif')" }}></div>
-                    <div className="absolute inset-0 bg-zinc-950/60 backdrop-blur-[12px]"></div>
-                    {/* Subtle gradient overlay to mimic the orange glow slightly, but using amber/dark theme */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent"></div>
+                    <div className="absolute inset-0 bg-cover bg-center opacity-80" style={{ backgroundImage: "url('/images/bg.gif')" }}></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                   </div>
 
                   <div className="relative z-10 flex flex-col h-full overflow-hidden">
-                    <p className="text-white/60 group-hover/card:text-white/90 transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
+                    <p className="text-zinc-700 group-hover/card:text-zinc-900 transition-colors duration-300 text-base font-helvetica leading-relaxed mb-8 whitespace-normal text-wrap break-words min-w-0 break-keep">
                       {testimonial.text}
                     </p>
                     
-                    <div className="mt-auto flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 border border-white/10 group-hover/card:border-white/30 transition-colors">
-                        <span className="text-amber-50 font-serif text-lg">{testimonial.name.charAt(0)}</span>
+                    <div className="mt-auto flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-zinc-200 flex items-center justify-center shrink-0 border border-zinc-300 overflow-hidden">
+                          <img src={`https://i.pravatar.cc/150?u=${testimonial.name}`} alt={testimonial.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="text-zinc-900 font-medium font-helvetica text-sm">{testimonial.name}</p>
+                          <p className="text-zinc-500 text-xs font-helvetica group-hover/card:text-zinc-800 transition-colors">{testimonial.title}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-amber-50 font-medium font-helvetica text-sm group-hover/card:text-white transition-colors">{testimonial.name}</p>
-                        <p className="text-white/40 text-xs font-helvetica group-hover/card:text-amber-100/60 transition-colors">{testimonial.title}</p>
+                      
+                      <div className="opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                        <a href="#" className="flex items-center gap-1.5 bg-zinc-900 text-white text-[10px] font-medium px-2.5 py-1.5 rounded-md hover:bg-black transition-colors">
+                          Read on 
+                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -511,11 +509,11 @@ export default function TraceLanding() {
           </div>
           <div className="border-t border-white/10">
             {[
-              { q: "Do my API keys or AI data ever leave my device?", a: "No. Your API keys and AI tool logs never leave your machine — they're read and stored locally. The only thing Trace AI syncs to the cloud is your account data, so your dashboard stays consistent across platforms." },
-              { q: "Do I need Python or any runtime installed?", a: "No. The installed app bundles everything it needs, including the local server. Just download, open, and Trace AI starts watching your logs." },
-              { q: "Which AI tools does Trace AI support?", a: "Claude Code, Cursor, Codex, OpenCode, and Gemini CLI today, with Copilot CLI and Ollama on the way. All log paths are configurable via environment variables." },
+              { q: "Do my API keys or AI data ever leave my device?", a: "No. Your API keys and AI tool logs never leave your machine — they're read and stored locally. The only thing Trackify AI syncs to the cloud is your account data, so your dashboard stays consistent across platforms." },
+              { q: "Do I need Python or any runtime installed?", a: "No. The installed app bundles everything it needs, including the local server. Just download, open, and Trackify AI starts watching your logs." },
+              { q: "Which AI tools does Trackify AI support?", a: "Claude Code, Cursor, Codex, OpenCode, and Gemini CLI today, with Copilot CLI and Ollama on the way. All log paths are configurable via environment variables." },
               { q: "How does it track usage and cost?", a: "A background watcher scans known CLI log directories every few seconds, parses them (JSON, JSONL, SQLite), and aggregates token counts and estimated costs into a unified dashboard." },
-              { q: "What does it cost?", a: "Trace AI is free and MIT-licensed. Download it for macOS (Apple Silicon) or Windows — Linux support is coming soon." }
+              { q: "What does it cost?", a: "Trackify AI is free and MIT-licensed. Download it for macOS (Apple Silicon) or Windows — Linux support is coming soon." }
             ].map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} />
             ))}
@@ -524,7 +522,7 @@ export default function TraceLanding() {
       </section>
 
       {/* Footer */}
-      <footer className="relative min-h-screen flex flex-col justify-between px-8 md:px-16 pt-32 pb-10 overflow-hidden bg-zinc-950">
+      <footer className="relative flex flex-col justify-between px-8 md:px-16 pt-32 pb-10 overflow-hidden bg-zinc-950">
         <div className="pointer-events-none absolute inset-0 origin-bottom" style={{ background: 'radial-gradient(ellipse 120% 90% at 50% 125%, #a14409 0%, #3d1908 42%, transparent 72%)' }}></div>
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl w-full mx-auto">
           <div>
@@ -545,21 +543,16 @@ export default function TraceLanding() {
           </div>
         </div>
 
-        <div className="absolute bottom-32 left-1/2 -translate-x-1/2 pointer-events-none select-none w-full text-center">
-          <AnimatedText 
-            text="Trace AI" 
-            className="text-white/5 text-[100px] sm:text-[180px] md:text-[350px] font-helvetica font-normal leading-[0.8] tracking-tighter whitespace-nowrap" 
-          />
-        </div>
+        {/* Giant footer text removed per user request */}
 
         <div className="relative w-full mx-auto grid grid-cols-2 md:flex md:justify-between md:items-center gap-6 pt-8 text-xs text-white/25 font-helvetica z-10">
           <div>
-            <p className="text-white/15 mb-1">© Trace AI 2026</p>
-            <a href="https://www.linkedin.com/in/subham12r/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Made by Subham12r</a>
+            <p className="text-white/15 mb-1">© Trackify AI 2026</p>
+            <a href="https://souradeep.me" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Made by souradeep.me</a>
           </div>
           <div>
-            <p className="text-white/15 mb-1">Twitter</p>
-            <a href="https://x.com/Subham12R" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">@subham12r</a>
+            <p className="text-white/15 mb-1">Github</p>
+            <a href="https://github.com/pradhan-not-found" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">@pradhan-not-found</a>
           </div>
           <div>
             <p className="text-white/15 mb-1">License</p>
