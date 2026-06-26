@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FadeIn } from './FadeIn';
 
 
@@ -106,7 +107,7 @@ export default function TraceLanding() {
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm text-zinc-100 text-shadow-lg">
             <a href="#features" className="micro-link hover:text-amber-600 transition-colors">Features</a>
-            <button onClick={() => setLoginOpen(true)} className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer bg-transparent border-none">Sign In</button>
+            <Link to="/login" className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-pointer" style={{textDecoration:'none'}}>Sign In</Link>
             <button onClick={(e) => e.preventDefault()} className="micro text-zinc-100 text-sm text-shadow-lg px-2 py-2 hover:underline cursor-default bg-transparent border-none">Download</button>
           </nav>
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-zinc-100 hover:text-white transition-colors cursor-pointer z-50" aria-label="Toggle menu">
@@ -116,7 +117,7 @@ export default function TraceLanding() {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 w-full border-b border-white/10 flex flex-col items-center gap-6 py-8 md:hidden" style={{ background: 'rgba(9, 9, 11, 0.6)', backdropFilter: 'blur(16px)' }}>
             <a href="#features" className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1">Features</a>
-            <button onClick={() => { setLoginOpen(true); setMobileMenuOpen(false); }} className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1 cursor-pointer text-center bg-transparent border-none">Sign In</button>
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="mobile-nav-item text-lg text-zinc-200 hover:text-white transition-colors py-1" style={{textDecoration:'none'}}>Sign In</Link>
             <button onClick={(e) => e.preventDefault()} className="mobile-nav-item text-lg text-amber-500 hover:text-amber-400 font-medium transition-colors py-1 bg-transparent border-none cursor-default">Download</button>
           </div>
         )}
@@ -592,13 +593,14 @@ export default function TraceLanding() {
       </footer>
 
       {/* Login Modal Overlay */}
-      
+      <style>{`
+        @keyframes modal-fadein { from { opacity: 0; } to { opacity: 1; } }
+        .modal-overlay { animation: modal-fadein 0.2s ease-out forwards; }
+      `}</style>
+
         {loginOpen && (
-          <FadeIn as="div" 
-            
-            
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex bg-zinc-950 font-sans antialiased overflow-y-auto"
+          <div
+            className="modal-overlay fixed inset-0 z-[100] flex bg-zinc-950 font-sans antialiased overflow-y-auto"
           >
             {/* Left Panel */}
             <div className="w-full lg:w-1/2 flex flex-col px-10 md:px-16 py-8 relative min-h-screen">
@@ -623,27 +625,27 @@ export default function TraceLanding() {
                 </button>
 
                 {/* Heading */}
-                <h1 className="text-white text-3xl md:text-4xl font-sans font-semibold mb-8 leading-tight tracking-tight">
+                <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 400, fontSize: 'clamp(26px,3vw,32px)', letterSpacing: '-0.025em', color: '#f4f4f5', lineHeight: 1.25, margin: '0 0 32px' }}>
                   Welcome back to{' '}
-                  <em className="font-serif font-normal not-italic" style={{ fontStyle: 'italic' }}>Trackify.</em>
+                  <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#d4d4d8' }}>Trackify.</em>
                 </h1>
 
                 {/* OAuth buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors cursor-pointer">
+                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
                     <svg viewBox="0 0 24 24" width="16" height="16">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                       <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                       <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    Google
+                    Continue with Google
                   </button>
-                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors cursor-pointer">
+                  <button className="flex-1 flex items-center justify-center gap-2.5 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors cursor-pointer whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
-                    GitHub
+                    Continue with GitHub
                   </button>
                 </div>
 
@@ -692,14 +694,14 @@ export default function TraceLanding() {
                 </div>
 
                 {/* Sign in button */}
-                <button className="w-full bg-white hover:bg-zinc-100 text-zinc-950 font-semibold text-sm py-2.5 rounded-lg transition-colors cursor-pointer mb-5 border-none">
+                <button className="w-full bg-zinc-100 hover:bg-white text-zinc-950 font-semibold text-sm py-3 rounded-xl transition-colors cursor-pointer mb-5 border-none" style={{ boxShadow: '0 4px 16px rgba(0,0,0,.18)' }}>
                   Sign in
                 </button>
 
                 {/* Sign up link */}
                 <p className="text-center text-white/40 text-sm font-helvetica">
                   Don't have an account?{' '}
-                  <button className="text-amber-500 hover:text-amber-400 font-medium transition-colors bg-transparent border-none cursor-pointer p-0 inline">Sign up</button>
+                  <button className="text-zinc-100 hover:text-white font-semibold transition-colors bg-transparent border-none cursor-pointer p-0 inline">Sign up</button>
                 </p>
               </div>
 
@@ -729,7 +731,7 @@ export default function TraceLanding() {
                 </div>
               </div>
             </div>
-          </FadeIn>
+          </div>
         )}
       
     </main>
